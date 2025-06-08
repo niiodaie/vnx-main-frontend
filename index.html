@@ -9,8 +9,26 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   </head>
-  <body class="bg-white">
-    <div id="root"></div>
+  <body class="bg-gray-900 text-white">
+  <section
+    class="relative flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat"
+    style="background-image: url('/tech-bg.svg');"
+  >
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    <div class="relative z-10 text-center px-4">
+      <h1 class="text-4xl md:text-6xl font-bold leading-tight bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+        The Future of Digital Innovation
+      </h1>
+      <p class="mt-4 text-lg md:text-xl text-gray-200 max-w-2xl mx-auto">
+        Unlock the power of AI-driven tools, cutting-edge platforms, and immersive experiences. Join 50,000+ innovators shaping tomorrow's digital landscape.
+      </p>
+      <div class="mt-6 flex flex-col sm:flex-row justify-center gap-4">
+        <a href="#" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition">Explore Tools</a>
+        <a href="#" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-md transition">Visit Platforms</a>
+        <a href="#" class="px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white rounded-lg shadow-md transition">Discover Experiences</a>
+      </div>
+    </div>
+  </section>
     <script>
       const { createElement, useState } = React;
       const { createRoot } = ReactDOM;
