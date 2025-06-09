@@ -12,9 +12,10 @@
 </head>
 <body class="bg-white text-white">
   <div id="root"></div>
-  <script>
+  <script type="text/javascript">
     const { createElement } = React;
     const { createRoot } = ReactDOM;
+
     const pillars = [
       { id: 'tools', icon: '🛠️', title: 'Tools', description: 'Handy utilities that solve real-world problems', url: 'https://vnx-shell-tools.vercel.app', gradient: 'from-blue-500 to-cyan-500' },
       { id: 'platforms', icon: '🧩', title: 'Platforms', description: 'Interactive launchpads and service layers', url: 'https://vnx-shell-platforms.vercel.app', gradient: 'from-green-500 to-emerald-500' },
@@ -27,8 +28,9 @@
       { id: 'trends', icon: '📊', title: 'Trends', description: 'Real-time market intelligence and emerging patterns', url: 'https://vnx-shell-trends.vercel.app', gradient: 'from-violet-500 to-purple-500' },
       { id: 'ventures', icon: '🚀', title: 'Ventures', description: 'Million-dollar startup opportunities and investments', url: 'https://vnx-shell-ventures.vercel.app', gradient: 'from-rose-500 to-pink-500' }
     ];
-    const App = () => (
-      createElement(React.Fragment, {},
+
+    function App() {
+      return createElement(React.Fragment, {},
         createElement('section', { className: 'relative min-h-screen px-4 py-20 flex flex-col justify-center items-center text-center bg-[url(/tech-bg.svg)] bg-cover bg-center' },
           createElement('div', { className: 'max-w-4xl mx-auto' },
             createElement('h1', { className: 'text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-500 mb-6' }, 'The Future of Digital Innovation'),
@@ -76,9 +78,11 @@
             )
           )
         )
-      )
-    );
-    createRoot(document.getElementById('root')).render(createElement(App));
+      );
+    }
+
+    const root = document.getElementById("root");
+    createRoot(root).render(createElement(App));
   </script>
 </body>
 </html>
