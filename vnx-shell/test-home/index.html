@@ -9,7 +9,7 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   </head>
-  <body class="bg-[url('/tech-bg.svg')] bg-no-repeat bg-cover bg-center min-h-screen text-white">
+  <body class="bg-white text-white">
     <div id="root"></div>
 
     <script>
@@ -32,7 +32,7 @@
       const App = () => (
         createElement(React.Fragment, {},
           // Hero
-          createElement('section', { className: 'min-h-screen flex flex-col items-center justify-center text-center px-4 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 text-white' },
+          createElement('section', { className: 'min-h-screen flex flex-col items-center justify-center text-center px-4 bg-[url(/tech-bg.svg)] bg-cover bg-center text-white' },
             createElement('h1', { className: 'text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 to-pink-500 text-transparent bg-clip-text mb-4' }, 'The Future of Digital Innovation'),
             createElement('p', { className: 'text-lg md:text-xl text-white/80 max-w-2xl mb-6' }, 'Unlock the power of AI-driven tools, cutting-edge platforms, and immersive experiences. Join 50,000+ innovators shaping tomorrow\'s digital landscape.'),
             createElement('div', { className: 'flex flex-wrap gap-4' },
