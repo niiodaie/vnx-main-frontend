@@ -11,7 +11,6 @@
   </head>
   <body class="bg-white text-white">
     <div id="root"></div>
-
     <script>
       const { createElement } = React;
       const { createRoot } = ReactDOM;
@@ -31,68 +30,16 @@
 
       const App = () => (
         createElement(React.Fragment, {},
-          // Hero
-          createElement('section', { className: 'min-h-screen flex flex-col items-center justify-center text-center px-4 bg-[url(/tech-bg.svg)] bg-cover bg-center text-white' },
-            createElement('h1', { className: 'text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 to-pink-500 text-transparent bg-clip-text mb-4' }, 'The Future of Digital Innovation'),
-            createElement('p', { className: 'text-lg md:text-xl text-white/80 max-w-2xl mb-6' }, 'Unlock the power of AI-driven tools, cutting-edge platforms, and immersive experiences. Join 50,000+ innovators shaping tomorrow\'s digital landscape.'),
-            createElement('div', { className: 'flex flex-wrap gap-4' },
-              createElement('a', { href: 'https://vnx-shell-tools.vercel.app', className: 'bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow' }, 'Explore Tools'),
-              createElement('a', { href: 'https://vnx-shell-platforms.vercel.app', className: 'bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded shadow' }, 'Visit Platforms'),
-              createElement('a', { href: 'https://vnx-shell-experiences.vercel.app', className: 'bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-6 rounded shadow' }, 'Discover Experiences')
-            )
-          ),
-
-          // Pillars Overview
-          createElement('section', { className: 'bg-white shadow-xl rounded-xl p-8 mt-12 text-gray-900' },
-            createElement('h2', { className: 'text-4xl font-bold text-center mb-3' }, '🌐 VNX Pillars'),
-            createElement('p', { className: 'text-center text-gray-600 mb-6' }, 'Explore the core pillars of Visnec Nexus:'),
-            createElement('div', { className: 'flex flex-wrap justify-center gap-4 mb-6' },
-              pillars.map(pillar =>
-                createElement('a', {
-                  key: pillar.id,
-                  href: pillar.url,
-                  target: '_blank',
-                  className: 'flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-700 hover:underline'
-                }, `${pillar.icon} ${pillar.title}`)
+          createElement('section', { className: 'relative min-h-screen px-4 py-20 flex flex-col justify-center items-center text-center bg-[url(/tech-bg.svg)] bg-cover bg-center' },
+            createElement('div', { className: 'max-w-4xl mx-auto' },
+              createElement('h1', { className: 'text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-500 mb-6' }, 'The Future of Digital Innovation'),
+              createElement('p', { className: 'text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto' }, 'Unlock the power of AI-driven tools, cutting-edge platforms, and immersive experiences. Join 50,000+ innovators shaping tomorrow\'s digital landscape.'),
+              createElement('div', { className: 'flex flex-wrap justify-center gap-4' },
+                createElement('a', { href: 'https://vnx-shell-tools.vercel.app', className: 'bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow text-sm' }, '≡ Explore Tools'),
+                createElement('a', { href: 'https://vnx-shell-platforms.vercel.app', className: 'bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded shadow text-sm' }, '⚙ Visit Platforms'),
+                createElement('a', { href: 'https://vnx-shell-experiences.vercel.app', className: 'bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-6 rounded shadow text-sm' }, '✦ Discover Experiences')
               )
             )
-          ),
-
-          // Pillar Cards
-          createElement('section', { className: 'bg-blue-50 py-12 rounded-xl shadow-inner px-6 text-gray-900' },
-            createElement('div', { className: 'text-center mb-10' },
-              createElement('h3', { className: 'text-3xl font-bold text-blue-800 mb-2' }, '🔷 Explore Our Pillars'),
-              createElement('p', { className: 'text-gray-600 max-w-2xl mx-auto' }, 'Ten comprehensive categories designed to accelerate your digital journey and unlock new possibilities.')
-            ),
-            createElement('div', { className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' },
-              pillars.map(pillar =>
-                createElement('a', {
-                  key: pillar.id,
-                  href: pillar.url,
-                  target: '_blank',
-                  className: 'bg-white rounded-xl p-6 shadow-md border-t-4 border-blue-300 hover:shadow-lg transition-all duration-300 no-underline hover:no-underline block'
-                },
-                  createElement('h4', { className: 'text-xl font-semibold mb-2 text-gray-800' }, `${pillar.icon} ${pillar.title}`),
-                  createElement('p', { className: 'text-sm text-gray-600 mb-4' }, pillar.description),
-                  createElement('span', {
-                    className: `inline-block px-4 py-2 bg-gradient-to-r ${pillar.gradient} text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300 text-center`
-                  }, 'Learn More')
-                )
-              )
-            )
-          ),
-
-          // Footer
-          createElement('footer', { className: 'bg-white text-center py-10 mt-16 border-t text-gray-900' },
-            createElement('p', { className: 'text-gray-600 mb-4' }, 'Follow us and stay updated:'),
-            createElement('div', { className: 'flex justify-center gap-4 mb-4' },
-              createElement('a', { href: 'https://facebook.com/vnxnexus', target: '_blank', className: 'text-blue-600 hover:text-blue-800' }, 'Facebook'),
-              createElement('a', { href: 'https://twitter.com/vnxnexus', target: '_blank', className: 'text-black hover:text-gray-700' }, 'Twitter'),
-              createElement('a', { href: 'https://instagram.com/vnxnexus', target: '_blank', className: 'text-pink-500 hover:text-pink-700' }, 'Instagram'),
-              createElement('a', { href: 'https://linkedin.com/company/vnxnexus', target: '_blank', className: 'text-blue-800 hover:text-blue-900' }, 'LinkedIn'),
-              createElement('a', { href: 'https://youtube.com/@vnxnexus', target: '_blank', className: 'text-red-600 hover:text-red-800' }, 'YouTube')
-            ),
-            createElement('p', { className: 'text-sm text-gray-400' }, '\u00a9 2025 Visnec Nexus. All rights reserved.')
           )
         )
       );
