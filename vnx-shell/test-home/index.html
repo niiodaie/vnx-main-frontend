@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -17,30 +17,53 @@
       const { createRoot } = ReactDOM;
 
       const pillars = [
-        { id: 'tools', icon: '🛠️', title: 'Tools', description: 'Handy utilities that solve real-world problems', gradient: 'from-blue-500 to-cyan-500' },
-        { id: 'platforms', icon: '🧩', title: 'Platforms', description: 'Interactive launchpads and service layers', gradient: 'from-green-500 to-emerald-500' },
-        { id: 'directories', icon: '📚', title: 'Directories', description: 'Discover niche resources by category', gradient: 'from-purple-500 to-violet-500' },
-        { id: 'resources', icon: '🗂️', title: 'Resources', description: 'Templates, guides, and downloadable kits', gradient: 'from-orange-500 to-red-500' },
-        { id: 'community', icon: '🧑‍🤝‍🧑', title: 'Community', description: 'Peer collaboration and feedback forums', gradient: 'from-pink-500 to-rose-500' },
-        { id: 'marketplace', icon: '🛒', title: 'Marketplace', description: 'Digital products, services, and SaaS tools', gradient: 'from-indigo-500 to-blue-500' },
-        { id: 'insights', icon: '📈', title: 'Insights', description: 'Trends, forecasts, and business analytics', gradient: 'from-teal-500 to-cyan-500' },
-        { id: 'experiences', icon: '✨', title: 'Experiences', description: 'Immersive digital journeys and exploration', gradient: 'from-yellow-500 to-amber-500' },
-        { id: 'trends', icon: '📊', title: 'Trends', description: 'Real-time market intelligence and emerging patterns', gradient: 'from-violet-500 to-purple-500' },
-        { id: 'ventures', icon: '🚀', title: 'Ventures', description: 'Million-dollar startup opportunities and investments', gradient: 'from-rose-500 to-pink-500' }
+        { id: 'tools', icon: '🛠️', title: 'Tools', description: 'Handy utilities that solve real-world problems', url: 'https://vnx-shell-tools.vercel.app', gradient: 'from-blue-500 to-cyan-500' },
+        { id: 'platforms', icon: '🧩', title: 'Platforms', description: 'Interactive launchpads and service layers', url: 'https://vnx-shell-platforms.vercel.app', gradient: 'from-green-500 to-emerald-500' },
+        { id: 'directories', icon: '📚', title: 'Directories', description: 'Discover niche resources by category', url: 'https://vnx-shell-directories.vercel.app', gradient: 'from-purple-500 to-violet-500' },
+        { id: 'resources', icon: '🗂️', title: 'Resources', description: 'Templates, guides, and downloadable kits', url: 'https://vnx-shell-resources.vercel.app', gradient: 'from-orange-500 to-red-500' },
+        { id: 'community', icon: '🧑‍🤝‍🧑', title: 'Community', description: 'Peer collaboration and feedback forums', url: 'https://vnx-shell-community.vercel.app', gradient: 'from-pink-500 to-rose-500' },
+        { id: 'marketplace', icon: '🛒', title: 'Marketplace', description: 'Digital products, services, and SaaS tools', url: 'https://vnx-shell-marketplace.vercel.app', gradient: 'from-indigo-500 to-blue-500' },
+        { id: 'insights', icon: '📈', title: 'Insights', description: 'Trends, forecasts, and business analytics', url: 'https://vnx-shell-insights.vercel.app', gradient: 'from-teal-500 to-cyan-500' },
+        { id: 'experiences', icon: '✨', title: 'Experiences', description: 'Immersive digital journeys and exploration', url: 'https://vnx-shell-experiences.vercel.app', gradient: 'from-yellow-500 to-amber-500' },
+        { id: 'trends', icon: '📊', title: 'Trends', description: 'Real-time market intelligence and emerging patterns', url: 'https://vnx-shell-trends.vercel.app', gradient: 'from-violet-500 to-purple-500' },
+        { id: 'ventures', icon: '🚀', title: 'Ventures', description: 'Million-dollar startup opportunities and investments', url: 'https://vnx-shell-ventures.vercel.app', gradient: 'from-rose-500 to-pink-500' }
       ];
 
       function App() {
-        return createElement('main', { className: 'py-12 px-4 max-w-7xl mx-auto' },
-          createElement('section', { className: 'bg-white shadow-lg rounded-xl p-8 text-gray-900' },
-            createElement('h2', { className: 'text-4xl font-bold text-center text-gray-800 mb-6' }, '🌐 VNX Pillars'),
-            createElement('p', { className: 'text-center text-gray-600 mb-8' }, 'Explore the core pillars of Visnec Nexus:'),
-            createElement('div', { className: 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center' },
+        return createElement('main', { className: 'py-12 px-4 max-w-7xl mx-auto text-gray-900' },
+          createElement('section', { className: 'bg-white shadow-xl rounded-xl p-8 mb-12' },
+            createElement('h2', { className: 'text-4xl font-bold text-center text-gray-800 mb-3' }, '🌐 VNX Pillars'),
+            createElement('p', { className: 'text-center text-gray-600 mb-6' }, 'Explore the core pillars of Visnec Nexus:'),
+            createElement('div', { className: 'flex flex-wrap justify-center gap-4 mb-6' },
               pillars.map(pillar =>
                 createElement('a', {
                   key: pillar.id,
-                  href: `https://vnx-shell-${pillar.id}.vercel.app`,
-                  className: 'text-blue-600 hover:underline text-lg font-medium'
+                  href: pillar.url,
+                  target: '_blank',
+                  className: 'flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-700 hover:underline'
                 }, `${pillar.icon} ${pillar.title}`)
+              )
+            )
+          ),
+          createElement('section', { className: 'bg-blue-50 py-12 rounded-xl shadow-inner px-6' },
+            createElement('div', { className: 'text-center mb-10' },
+              createElement('h3', { className: 'text-3xl font-bold text-blue-800 mb-2' }, '🔷 Explore Our Pillars'),
+              createElement('p', { className: 'text-gray-600 max-w-2xl mx-auto' }, 'Ten comprehensive categories designed to accelerate your digital journey and unlock new possibilities.')
+            ),
+            createElement('div', { className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' },
+              pillars.map(pillar =>
+                createElement('a', {
+                  key: pillar.id,
+                  href: pillar.url,
+                  target: '_blank',
+                  className: 'bg-white rounded-xl p-6 shadow-md border-t-4 border-blue-300 hover:shadow-lg transition-all duration-300 no-underline hover:no-underline block'
+                },
+                  createElement('h4', { className: 'text-xl font-semibold mb-2 text-gray-800' }, `${pillar.icon} ${pillar.title}`),
+                  createElement('p', { className: 'text-sm text-gray-600 mb-4' }, pillar.description),
+                  createElement('span', {
+                    className: `inline-block px-4 py-2 bg-gradient-to-r ${pillar.gradient} text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300 text-center`
+                  }, 'Learn More')
+                )
               )
             )
           )
@@ -51,73 +74,3 @@
     </script>
   </body>
 </html>
-<section class="py-12 px-4 md:px-8 lg:px-16 bg-[#f5f8ff]">
-  <h2 class="text-3xl font-bold text-center text-blue-800 mb-2 flex items-center justify-center">
-    <span class="mr-2 text-xl">🔷</span> Explore Our Pillars
-  </h2>
-  <p class="text-center text-gray-600 mb-10 text-lg">
-    Ten comprehensive categories designed to accelerate your digital journey and unlock new possibilities.
-  </p>
-
-  <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Tools</h3>
-      <p class="text-sm text-gray-600 mb-3">Handy utilities that solve real-world problems</p>
-      <a href="https://vnx-shell-tools.vercel.app" class="text-blue-800 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Platforms</h3>
-      <p class="text-sm text-gray-600 mb-3">Interactive launchpads and service layers</p>
-      <a href="https://vnx-shell-platforms.vercel.app" class="text-green-700 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Directories</h3>
-      <p class="text-sm text-gray-600 mb-3">Discover niche resources by category</p>
-      <a href="https://vnx-shell-directories.vercel.app" class="text-purple-700 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Resources</h3>
-      <p class="text-sm text-gray-600 mb-3">Templates, guides, and downloadable kits</p>
-      <a href="https://vnx-shell-resources.vercel.app" class="text-orange-600 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Community</h3>
-      <p class="text-sm text-gray-600 mb-3">Peer collaboration and feedback forums</p>
-      <a href="https://vnx-shell-community.vercel.app" class="text-pink-600 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Marketplace</h3>
-      <p class="text-sm text-gray-600 mb-3">Digital products, services, and SaaS tools</p>
-      <a href="#" class="text-blue-800 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Insights</h3>
-      <p class="text-sm text-gray-600 mb-3">Trends, forecasts, and business analytics</p>
-      <a href="#" class="text-green-700 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Experiences</h3>
-      <p class="text-sm text-gray-600 mb-3">Immersive digital journeys and exploration</p>
-      <a href="https://vnx-shell-experiences.vercel.app" class="text-yellow-600 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Trends</h3>
-      <p class="text-sm text-gray-600 mb-3">Real-time market intelligence and emerging patterns</p>
-      <a href="https://vnx-shell-trends.vercel.app" class="text-purple-700 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h3 class="text-xl font-semibold mb-2">Ventures</h3>
-      <p class="text-sm text-gray-600 mb-3">Million-dollar startup opportunities and investments</p>
-      <a href="https://vnx-shell-ventures.vercel.app" class="text-red-600 font-semibold text-sm hover:underline">Learn More</a>
-    </div>
-  </div>
-</section>
