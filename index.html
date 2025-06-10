@@ -282,24 +282,36 @@
     })
     .catch(err => console.warn("Geo lookup failed", err));
 </script>
-window.addEventListener("load", function(){
+<!-- Enhanced Cookie Consent Banner -->
+<script>
+ <!-- Enhanced Cookie Consent Banner -->
+<script>
+  window.addEventListener("load", function () {
     if (!localStorage.getItem("cookieConsent")) {
       const banner = document.createElement("div");
       banner.innerHTML = `
-        <div style="position:fixed;bottom:0;left:0;right:0;background:#000;color:#fff;padding:12px;text-align:center;z-index:10000;font-size:14px;">
-          This site uses cookies to enhance user experience and analyze traffic.
-          <button onclick="acceptCookies()" style="margin-left:15px;background:#10B981;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;">
-            OK
-          </button>
+        <div class="fixed bottom-0 inset-x-0 bg-black text-white text-sm p-4 flex flex-col md:flex-row justify-between items-center z-[10000]">
+          <div class="mb-2 md:mb-0">
+            This site uses cookies to enhance user experience and analyze traffic.
+            <a href="/privacy.html" class="underline text-teal-400 ml-2" target="_blank">Learn More</a>
+          </div>
+          <div class="space-x-2">
+            <button onclick="acceptCookies()" class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded">Accept</button>
+            <button onclick="declineCookies()" class="bg-gray-500 hover:bg-gray-600 text-white py-1 px-3 rounded">Decline</button>
+          </div>
         </div>
       `;
       document.body.appendChild(banner);
+
       window.acceptCookies = function () {
-        localStorage.setItem("cookieConsent", "true");
+        localStorage.setItem("cookieConsent", "accepted");
+        banner.remove();
+      };
+
+      window.declineCookies = function () {
+        localStorage.setItem("cookieConsent", "declined");
         banner.remove();
       };
     }
   });
 </script>
-</body>
-</html>
