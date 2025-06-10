@@ -267,32 +267,36 @@
 <script src="https://unpkg.com/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
 <script src="https://unpkg.com/i18next-http-backend@2.2.1/i18nextHttpBackend.min.js"></script>
 
-i18next
-  .use(i18nextHttpBackend)
-  .use(i18nextBrowserLanguageDetector)
-  .init({
-    fallbackLng: 'en',
-    debug: false,
-    backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json'
-    }
-  }, function(err, t) {
-    if (err) return console.error('i18next init failed:', err);
-    updateContent();
-    showCookieConsent();
+<script src="https://unpkg.com/i18next@22.4.7/i18next.min.js"></script>
+<script src="https://unpkg.com/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+<script src="https://unpkg.com/i18next-http-backend@2.2.1/i18nextHttpBackend.min.js"></script>
 
-    // **Add the geolocation fetch here**
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(data => {
-        console.log('User country code:', data.country);
-        setLanguageByCountry(data.country);
-      })
-      .catch(err => console.warn('IP Geolocation error:', err));
-  });
+<script>
+  i18next
+    .use(i18nextHttpBackend)
+    .use(i18nextBrowserLanguageDetector)
+    .init({
+      fallbackLng: 'en',
+      debug: false,
+      backend: {
+        loadPath: '/locales/{{lng}}/{{ns}}.json'
+      }
+    }, function(err, t) {
+      if (err) return console.error('i18next init failed:', err);
+      updateContent();
+      showCookieConsent();
 
+      // Geolocation fetch (IP fallback)
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          console.log('User country code:', data.country);
+          setLanguageByCountry(data.country);
+        })
+        .catch(err => console.warn('IP Geolocation error:', err));
     });
 
+  // Update i18n text on page
   function updateContent() {
     document.querySelectorAll('[data-i18n]').forEach(elem => {
       const key = elem.getAttribute('data-i18n');
@@ -300,6 +304,7 @@ i18next
     });
   }
 
+  // Cookie consent banner
   function showCookieConsent() {
     if (!localStorage.getItem("cookieConsentV2")) {
       const wrapper = document.createElement("div");
@@ -307,7 +312,7 @@ i18next
 
       const message = document.createElement("div");
       message.className = "mb-2 md:mb-0";
-      message.innerHTML = i18next.t('cookie_message') + 
+      message.innerHTML = i18next.t('cookie_message') +
         ' <a href="/privacy.html" class="underline text-teal-400 ml-2" target="_blank">' + i18next.t('learn_more') + '</a>';
 
       const buttons = document.createElement("div");
@@ -327,54 +332,63 @@ i18next
       declineBtn.onclick = () => {
         localStorage.setItem("cookieConsentV2", "declined");
         wrapper.remove();
-        buttons.appendChild(acceptBtn);
-  buttons.appendChild(declineBtn);
+      };
 
-  wrapper.appendChild(message);
-  wrapper.appendChild(buttons);
+      buttons.appendChild(acceptBtn);
+      buttons.appendChild(declineBtn);
 
-  document.body.appendChild(wrapper);
-}
+      wrapper.appendChild(message);
+      wrapper.appendChild(buttons);
 
-// Function to update language based on country code (add your mappings)
-function setLanguageByCountry(countryCode) {
-  const countryLangMap = {
-    'KE': 'sw',  // Kenya => Swahili
-    'TZ': 'sw',  // Tanzania => Swahili
-    'UG': 'sw',  // Uganda => Swahili
-    'US': 'en',  // United States => English
-    'FR': 'fr',  // France => French
-    'ES': 'es',  // Spain => Spanish
-    // Add more as needed
-  };
-
-  const lang = countryLangMap[countryCode] || 'en';
-  i18next.changeLanguage(lang, () => {
-    updateContent();
-    setActiveButton(lang);
-  });
+      document.body.appendChild(wrapper);
+    }
   }
 
-  // Try browser geolocation first
+  // Set language by country code mapping
+  function setLanguageByCountry(countryCode) {
+    const countryLangMap = {
+      'KE': 'sw',  // Kenya => Swahili
+      'TZ': 'sw',  // Tanzania => Swahili
+      'UG': 'sw',  // Uganda => Swahili
+      'US': 'en',  // United States => English
+      'FR': 'fr',  // France => French
+      'ES': 'es',  // Spain => Spanish
+      // Add more as needed
+    };
+
+    const lang = countryLangMap[countryCode] || 'en';
+    i18next.changeLanguage(lang, () => {
+      updateContent();
+      setActiveButton(lang);
+    });
+  }
+
+  // Highlight active language button
+  function setActiveButton(lang) {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
+
+  // Try browser geolocation first, fallback to IP-based
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       position => {
         console.log('Browser Geolocation detected:', position.coords.latitude, position.coords.longitude);
-        // Here you might call a reverse geocoding API to get country, skipping for brevity
-        // For now, just log coords or use IP fallback next
+        // Optional: call reverse geocoding API here to get country
       },
       error => {
         console.warn('Geolocation error:', error.message);
         fallbackIPGeolocation();
       },
-      { timeout: 5000 } // Wait max 5 seconds for user permission
+      { timeout: 5000 }
     );
   } else {
     console.warn('Browser geolocation not supported, falling back to IP geolocation');
     fallbackIPGeolocation();
   }
 
-  // Fallback function using IP-based geolocation API
+  // IP-based geolocation fallback
   function fallbackIPGeolocation() {
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
@@ -384,8 +398,7 @@ function setLanguageByCountry(countryCode) {
       })
       .catch(err => {
         console.warn('IP Geolocation failed:', err);
-        // Default language fallback
-        setLanguageByCountry('en');
+        setLanguageByCountry('en'); // default fallback
       });
   }
 </script>
