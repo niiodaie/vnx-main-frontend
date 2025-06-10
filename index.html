@@ -265,15 +265,13 @@
 <span class="text-gray-400 text-sm">Powered by AI Excellence</span>
 <!-- Load i18next and plugins -->
 <!-- Load i18next and plugins -->
-<script src="https://unpkg.com/i18next@22.4.7/i18next.min.js"></script>
-<script src="https://unpkg.com/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
-<script src="https://unpkg.com/i18next-http-backend@2.2.1/i18nextHttpBackend.min.js"></script>
-
+<!-- i18next and plugins -->
 <script src="https://unpkg.com/i18next@22.4.7/i18next.min.js"></script>
 <script src="https://unpkg.com/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
 <script src="https://unpkg.com/i18next-http-backend@2.2.1/i18nextHttpBackend.min.js"></script>
 
 <script>
+  // Initialize i18next with backend and language detector
   i18next
     .use(i18nextHttpBackend)
     .use(i18nextBrowserLanguageDetector)
@@ -281,25 +279,17 @@
       fallbackLng: 'en',
       debug: false,
       backend: {
-        loadPath: '/locales/{{lng}}/{{ns}}.json'
+        loadPath: '/locales/{{lng}}/translation.json' // adjust path if needed
       }
     }, function(err, t) {
       if (err) return console.error('i18next init failed:', err);
-      updateContent();
-      showCookieConsent();
-
-      // IP Geolocation fetch to detect country
-      fetch('https://ipapi.co/json/')
-        .then(res => res.json())
-        .then(data => {
-          console.log('User country code:', data.country);
-          setLanguageByCountry(data.country);
-          displayLocation(data.country);
-        })
-        .catch(err => console.warn('IP Geolocation error:', err));
+      
+      updateContent();       // update translated text on page
+      showCookieConsent();   // show cookie consent banner
+      detectUserLocation();  // detect user country and set language
     });
 
-  // Update i18next text on page
+  // Update all elements with [data-i18n] attribute using i18next translations
   function updateContent() {
     document.querySelectorAll('[data-i18n]').forEach(elem => {
       const key = elem.getAttribute('data-i18n');
@@ -315,7 +305,7 @@
 
       const message = document.createElement("div");
       message.className = "mb-2 md:mb-0";
-      message.innerHTML = i18next.t('cookie_message') +
+      message.innerHTML = i18next.t('cookie_message') + 
         ' <a href="/privacy.html" class="underline text-teal-400 ml-2" target="_blank">' + i18next.t('learn_more') + '</a>';
 
       const buttons = document.createElement("div");
@@ -347,47 +337,59 @@
     }
   }
 
-  // Set language based on country code mapping
-  function setLanguageByCountry(countryCode) {
-    const countryLangMap = {
-      'KE': 'sw',  // Kenya => Swahili
-      'TZ': 'sw',  // Tanzania => Swahili
-      'UG': 'sw',  // Uganda => Swahili
-      'US': 'en',  // United States => English
-      'FR': 'fr',  // France => French
-      'ES': 'es',  // Spain => Spanish
-      // Add more as needed
-    };
+  // Map country codes to language codes
+  const countryLangMap = {
+    'KE': 'sw',  // Kenya => Swahili
+    'TZ': 'sw',  // Tanzania => Swahili
+    'UG': 'sw',  // Uganda => Swahili
+    'US': 'en',  // United States => English
+    'FR': 'fr',  // France => French
+    'ES': 'es',  // Spain => Spanish
+    // Add more country-language mappings as needed
+  };
 
+  // Set language based on country code
+  function setLanguageByCountry(countryCode) {
     const lang = countryLangMap[countryCode] || 'en';
     i18next.changeLanguage(lang, () => {
       updateContent();
-      setActiveButton(lang);
+      // Optional: update UI to reflect active language if you have language buttons
     });
   }
 
-  // Highlight active language button (optional UI feature)
-  function setActiveButton(lang) {
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-    });
+  // Detect user location and set language accordingly
+  function detectUserLocation() {
+    // Try browser geolocation API first
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          // Here you can do reverse geocoding if needed to get country
+          // For now, fallback to IP geolocation for country detection
+          fallbackIPGeolocation();
+        },
+        error => {
+          console.warn('Browser geolocation error:', error.message);
+          fallbackIPGeolocation();
+        },
+        { timeout: 5000 }
+      );
+    } else {
+      console.warn('Browser geolocation not supported, falling back to IP geolocation');
+      fallbackIPGeolocation();
+    }
   }
 
-  // Display detected user location on page
-  function displayLocation(countryCode) {
-    const locationElem = document.getElementById('user-location');
-    if (!locationElem) return;
-
-    const countryNames = {
-      'KE': 'Kenya',
-      'TZ': 'Tanzania',
-      'UG': 'Uganda',
-      'US': 'United States',
-      'FR': 'France',
-      'ES': 'Spain',
-      // Add more as needed
-    };
-
-    locationElem.textContent = 'Your location: ' + (countryNames[countryCode] || countryCode);
+  // IP geolocation fallback using ipapi.co
+  function fallbackIPGeolocation() {
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        console.log('IP Geolocation detected country:', data.country_code);
+        setLanguageByCountry(data.country_code);
+      })
+      .catch(err => {
+        console.warn('IP geolocation failed:', err);
+        setLanguageByCountry('en'); // fallback language
+      });
   }
 </script>
