@@ -296,53 +296,33 @@
         .catch(err => console.warn('IP Geolocation error:', err));
     });
 
-  // Update i18n text on page
-function updateContent() {
-  document.querySelectorAll('[data-i18n]').forEach(elem => {
-    const key = elem.getAttribute('data-i18n');
-    elem.innerHTML = i18next.t(key);
-  });
-}
-
-// Cookie consent banner
-function showCookieConsent() {
-  if (!localStorage.getItem("cookieConsentV2")) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "fixed bottom-0 inset-x-0 bg-black text-white text-sm p-4 flex flex-col md:flex-row justify-between items-center z-[10000]";
-
-    const message = document.createElement("div");
-    message.className = "mb-2 md:mb-0";
-    message.innerHTML = i18next.t('cookie_message') +
-      ' <a href="/privacy.html" class="underline text-teal-400 ml-2" target="_blank">' + i18next.t('learn_more') + '</a>';
-
-    const buttons = document.createElement("div");
-    buttons.className = "space-x-2 flex";
-
-    const acceptBtn = document.createElement("button");
-    acceptBtn.textContent = i18next.t('accept');
-    acceptBtn.className = "bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded";
-    acceptBtn.onclick = () => {
-      localStorage.setItem("cookieConsentV2", "accepted");
-      wrapper.remove();
-    };
-
-    const declineBtn = document.createElement("button");
-    declineBtn.textContent = i18next.t('decline');
-    declineBtn.className = "bg-gray-500 hover:bg-gray-600 text-white py-1 px-3 rounded";
-    declineBtn.onclick = () => {
-      localStorage.setItem("cookieConsentV2", "declined");
-      wrapper.remove();
-    };
-
-    buttons.appendChild(acceptBtn);
-    buttons.appendChild(declineBtn);
-
-    wrapper.appendChild(message);
-    wrapper.appendChild(buttons);
-
-    document.body.appendChild(wrapper);
+  function updateContent() {
+    document.querySelectorAll('[data-i18n]').forEach(elem => {
+      const key = elem.getAttribute('data-i18n');
+      elem.innerHTML = i18next.t(key);
+    });
   }
-}
+
+  function showCookieConsent() {
+    if (!localStorage.getItem("cookieConsentV2")) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "fixed bottom-0 inset-x-0 bg-black text-white text-sm p-4 flex flex-col md:flex-row justify-between items-center z-[10000]";
+
+      const message = document.createElement("div");
+      message.className = "mb-2 md:mb-0";
+      message.innerHTML = i18next.t('cookie_message') + 
+        ' <a href="/privacy.html" class="underline text-teal-400 ml-2" target="_blank">' + i18next.t('learn_more') + '</a>';
+
+      const buttons = document.createElement("div");
+      buttons.className = "space-x-2 flex";
+
+      const acceptBtn = document.createElement("button");
+      acceptBtn.textContent = i18next.t('accept');
+      acceptBtn.className = "bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded";
+      acceptBtn.onclick = () => {
+        localStorage.setItem("cookieConsentV2", "accepted");
+        wrapper.remove();
+      };
 
       const declineBtn = document.createElement("button");
       declineBtn.textContent = i18next.t('decline');
@@ -362,61 +342,18 @@ function showCookieConsent() {
     }
   }
 
-  // Set language by country code mapping
   function setLanguageByCountry(countryCode) {
     const countryLangMap = {
-      'KE': 'sw',  // Kenya => Swahili
-      'TZ': 'sw',  // Tanzania => Swahili
-      'UG': 'sw',  // Uganda => Swahili
-      'US': 'en',  // United States => English
-      'FR': 'fr',  // France => French
-      'ES': 'es',  // Spain => Spanish
-      // Add more as needed
+      'KE': 'sw',
+      'TZ': 'sw',
+      'UG': 'sw',
+      'US': 'en',
+      'FR': 'fr',
+      'ES': 'es',
     };
-
     const lang = countryLangMap[countryCode] || 'en';
     i18next.changeLanguage(lang, () => {
       updateContent();
-      setActiveButton(lang);
     });
-  }
-
-  // Highlight active language button
-  function setActiveButton(lang) {
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-    });
-  }
-
-  // Try browser geolocation first, fallback to IP-based
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        console.log('Browser Geolocation detected:', position.coords.latitude, position.coords.longitude);
-        // Optional: call reverse geocoding API here to get country
-      },
-      error => {
-        console.warn('Geolocation error:', error.message);
-        fallbackIPGeolocation();
-      },
-      { timeout: 5000 }
-    );
-  } else {
-    console.warn('Browser geolocation not supported, falling back to IP geolocation');
-    fallbackIPGeolocation();
-  }
-
-  // IP-based geolocation fallback
-  function fallbackIPGeolocation() {
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(data => {
-        console.log('IP Geolocation detected:', data.country_code);
-        setLanguageByCountry(data.country_code);
-      })
-      .catch(err => {
-        console.warn('IP Geolocation failed:', err);
-        setLanguageByCountry('en'); // default fallback
-      });
   }
 </script>
