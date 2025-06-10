@@ -330,21 +330,57 @@
   }
 <script>
 // ... your i18next init code above
+<script>
+  // Function to update language based on country code (add your mappings)
+  function setLanguageByCountry(countryCode) {
+    const countryLangMap = {
+      'KE': 'sw',  // Kenya => Swahili
+      'TZ': 'sw',  // Tanzania => Swahili
+      'UG': 'sw',  // Uganda => Swahili
+      'US': 'en',  // United States => English
+      'FR': 'fr',  // France => French
+      'ES': 'es',  // Spain => Spanish
+      // Add more as needed
+    };
+    
+    const lang = countryLangMap[countryCode] || 'en';
+    i18next.changeLanguage(lang, () => {
+      updateContent();
+      setActiveButton(lang);
+    });
+  }
 
-// Geo-location code here
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    position => {
-      console.log('User Latitude:', position.coords.latitude);
-      console.log('User Longitude:', position.coords.longitude);
-      // Do something with the location data
-    },
-    error => {
-      console.warn('Geolocation error:', error.message);
-    }
-  );
-} else {
-  console.warn('Geolocation not supported.');
-}
+  // Try browser geolocation first
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        console.log('Browser Geolocation detected:', position.coords.latitude, position.coords.longitude);
+        // Here you might call a reverse geocoding API to get country, skipping for brevity
+        // For now, just log coords or use IP fallback next
+      },
+      error => {
+        console.warn('Geolocation error:', error.message);
+        fallbackIPGeolocation();
+      },
+      { timeout: 5000 } // Wait max 5 seconds for user permission
+    );
+  } else {
+    console.warn('Browser geolocation not supported, falling back to IP geolocation');
+    fallbackIPGeolocation();
+  }
+
+  // Fallback function using IP-based geolocation API
+  function fallbackIPGeolocation() {
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        console.log('IP Geolocation detected:', data.country_code);
+        setLanguageByCountry(data.country_code);
+      })
+      .catch(err => {
+        console.warn('IP Geolocation failed:', err);
+        // Default language fallback
+        setLanguageByCountry('en');
+      });
+  }
 </script>
-
