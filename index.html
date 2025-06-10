@@ -328,4 +328,23 @@
       document.body.appendChild(wrapper);
     }
   }
+<script>
+// ... your i18next init code above
+
+// Geo-location code here
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      console.log('User Latitude:', position.coords.latitude);
+      console.log('User Longitude:', position.coords.longitude);
+      // Do something with the location data
+    },
+    error => {
+      console.warn('Geolocation error:', error.message);
+    }
+  );
+} else {
+  console.warn('Geolocation not supported.');
+}
 </script>
+
