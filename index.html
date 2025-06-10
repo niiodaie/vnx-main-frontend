@@ -46,11 +46,13 @@
 
     <!-- Right Side Buttons -->
     <div class="flex items-center space-x-4">
-      <a href="#" class="text-slate-600 hover:text-purple-600">Sign In</a>
-      <a href="#" class="bg-gradient-to-r from-purple-500 to-blue-600 text-white px-4 py-1 rounded shadow hover:opacity-90">
-        Get Started
-      </a>
-    </div>
+  <a href="#" class="text-slate-600 hover:text-purple-600">Sign In</a>
+  <a href="#" class="bg-gradient-to-r from-purple-500 to-blue-600 text-white px-4 py-1 rounded shadow hover:opacity-90">
+    Get Started
+  </a>
+  <div id="user-location" class="text-sm text-gray-200 ml-4"></div>
+</div>
+
 </div>
 </nav>
 </header>
@@ -286,16 +288,18 @@
       updateContent();
       showCookieConsent();
 
-      // Geolocation fetch (IP fallback)
+      // IP Geolocation fetch to detect country
       fetch('https://ipapi.co/json/')
         .then(res => res.json())
         .then(data => {
           console.log('User country code:', data.country);
           setLanguageByCountry(data.country);
+          displayLocation(data.country);
         })
         .catch(err => console.warn('IP Geolocation error:', err));
     });
 
+  // Update i18next text on page
   function updateContent() {
     document.querySelectorAll('[data-i18n]').forEach(elem => {
       const key = elem.getAttribute('data-i18n');
@@ -303,6 +307,7 @@
     });
   }
 
+  // Cookie consent banner
   function showCookieConsent() {
     if (!localStorage.getItem("cookieConsentV2")) {
       const wrapper = document.createElement("div");
@@ -310,7 +315,7 @@
 
       const message = document.createElement("div");
       message.className = "mb-2 md:mb-0";
-      message.innerHTML = i18next.t('cookie_message') + 
+      message.innerHTML = i18next.t('cookie_message') +
         ' <a href="/privacy.html" class="underline text-teal-400 ml-2" target="_blank">' + i18next.t('learn_more') + '</a>';
 
       const buttons = document.createElement("div");
@@ -342,18 +347,47 @@
     }
   }
 
+  // Set language based on country code mapping
   function setLanguageByCountry(countryCode) {
     const countryLangMap = {
-      'KE': 'sw',
-      'TZ': 'sw',
-      'UG': 'sw',
-      'US': 'en',
-      'FR': 'fr',
-      'ES': 'es',
+      'KE': 'sw',  // Kenya => Swahili
+      'TZ': 'sw',  // Tanzania => Swahili
+      'UG': 'sw',  // Uganda => Swahili
+      'US': 'en',  // United States => English
+      'FR': 'fr',  // France => French
+      'ES': 'es',  // Spain => Spanish
+      // Add more as needed
     };
+
     const lang = countryLangMap[countryCode] || 'en';
     i18next.changeLanguage(lang, () => {
       updateContent();
+      setActiveButton(lang);
     });
+  }
+
+  // Highlight active language button (optional UI feature)
+  function setActiveButton(lang) {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
+
+  // Display detected user location on page
+  function displayLocation(countryCode) {
+    const locationElem = document.getElementById('user-location');
+    if (!locationElem) return;
+
+    const countryNames = {
+      'KE': 'Kenya',
+      'TZ': 'Tanzania',
+      'UG': 'Uganda',
+      'US': 'United States',
+      'FR': 'France',
+      'ES': 'Spain',
+      // Add more as needed
+    };
+
+    locationElem.textContent = 'Your location: ' + (countryNames[countryCode] || countryCode);
   }
 </script>
