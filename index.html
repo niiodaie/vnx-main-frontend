@@ -282,6 +282,24 @@
     })
     .catch(err => console.warn("Geo lookup failed", err));
 </script>
-
+window.addEventListener("load", function(){
+    if (!localStorage.getItem("cookieConsent")) {
+      const banner = document.createElement("div");
+      banner.innerHTML = `
+        <div style="position:fixed;bottom:0;left:0;right:0;background:#000;color:#fff;padding:12px;text-align:center;z-index:10000;font-size:14px;">
+          This site uses cookies to enhance user experience and analyze traffic.
+          <button onclick="acceptCookies()" style="margin-left:15px;background:#10B981;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;">
+            OK
+          </button>
+        </div>
+      `;
+      document.body.appendChild(banner);
+      window.acceptCookies = function () {
+        localStorage.setItem("cookieConsent", "true");
+        banner.remove();
+      };
+    }
+  });
+</script>
 </body>
 </html>
