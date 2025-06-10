@@ -42,7 +42,7 @@
       <a href="https://platforms.visnec.ai">Platforms</a>
       <a href="https://directories.visnec.ai">Directories</a>
       <a href="https://resources.visnec.ai">Resources</a>
-      <a href="https://community.visnec.ai">Community</a>
+      <a href="https://community.visnec.ai">Community</a>localStorage.setItem("cookieConsentV2", "declined");
       <a href="https://marketplace.visnec.ai">Marketplace</a>
       <a href="https://insights.visnec.ai">Insights</a>
       <a href="https://experiences.visnec.ai">Experiences</a>
@@ -304,12 +304,12 @@
       document.body.appendChild(banner);
 
       window.acceptCookies = function () {
-        localStorage.setItem("cookieConsent", "accepted");
+        localStorage.setItem("cookieConsentV2", "accepted");
         banner.remove();
       };
 
       window.declineCookies = function () {
-        localStorage.setItem("cookieConsent", "declined");
+        localStorage.setItem("cookieConsentV2", "declined");
         banner.remove();
       };
     }
