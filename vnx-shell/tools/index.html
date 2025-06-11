@@ -4,71 +4,57 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VNX Tools</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   </head>
-  <body class="bg-gray-50 text-gray-800">
-    <!-- Header -->
-    <header class="bg-white shadow sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <h1 class="text-xl font-bold text-blue-600">VNX Tools</h1>
-        <input type="search" placeholder="Search tools..." class="border rounded px-3 py-1 w-60 focus:outline-none focus:ring-2 focus:ring-blue-300" />
+  <body class="bg-gray-50 text-gray-900">
+    <header class="bg-blue-800 text-white p-6 shadow">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <h1 class="text-3xl font-bold">🧰 VNX Tools</h1>
+        <input type="text" placeholder="Search tools..." class="px-4 py-2 rounded-md text-black" />
       </div>
     </header>
 
-    <!-- Content Grid -->
-    <main class="max-w-7xl mx-auto px-4 py-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- Tool Card -->
-        <a href="https://notebook-vnx-viusmedia.replit.app/" target="_blank" class="block bg-white shadow hover:shadow-lg rounded-lg p-6 border border-blue-100">
-          <h2 class="text-lg font-semibold mb-2">Notebook VNX</h2>
-          <p class="text-sm text-gray-600 mb-2">A sleek, fast web-based note-taking tool.</p>
-          <span class="inline-block bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">#Productivity</span>
-        </a>
-
-        <a href="https://task-trackr-viusmedia.replit.app/" target="_blank" class="block bg-white shadow hover:shadow-lg rounded-lg p-6 border border-blue-100">
-          <h2 class="text-lg font-semibold mb-2">Task Trackr</h2>
-          <p class="text-sm text-gray-600 mb-2">Simple task manager for organized workflows.</p>
-          <span class="inline-block bg-green-100 text-green-700 text-xs px-2 py-1 rounded">#DevTools</span>
-        </a>
-
-        <a href="https://network-diagnostic-tool-viusmedia.replit.app/" target="_blank" class="block bg-white shadow hover:shadow-lg rounded-lg p-6 border border-blue-100">
-          <h2 class="text-lg font-semibold mb-2">Network Diagnostic Tool</h2>
-          <p class="text-sm text-gray-600 mb-2">Ping, trace, and diagnose network issues fast.</p>
-          <span class="inline-block bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded">#Networking</span>
-        </a>
-
-        <a href="https://statusreport-viusmedia.replit.app/" target="_blank" class="block bg-white shadow hover:shadow-lg rounded-lg p-6 border border-blue-100">
-          <h2 class="text-lg font-semibold mb-2">Status Report</h2>
-          <p class="text-sm text-gray-600 mb-2">Weekly project status reporting tool.</p>
-          <span class="inline-block bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded">#Productivity</span>
-        </a>
-
-        <a href="https://scam-shield-viusmedia.replit.app/" target="_blank" class="block bg-white shadow hover:shadow-lg rounded-lg p-6 border border-blue-100">
-          <h2 class="text-lg font-semibold mb-2">Scam Shield</h2>
-          <p class="text-sm text-gray-600 mb-2">Scan and detect suspicious websites or links.</p>
-          <span class="inline-block bg-red-100 text-red-700 text-xs px-2 py-1 rounded">#Security</span>
-        </a>
-
-        <a href="https://flight-tracker-viusmedia.replit.app/auth" target="_blank" class="block bg-white shadow hover:shadow-lg rounded-lg p-6 border border-blue-100">
-          <h2 class="text-lg font-semibold mb-2">Flight Tracker</h2>
-          <p class="text-sm text-gray-600 mb-2">Live flight updates and travel deals.</p>
-          <span class="inline-block bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded">#Travel</span>
-        </a>
-
-        <a href="https://breath-check-viusmedia.replit.app/" target="_blank" class="block bg-white shadow hover:shadow-lg rounded-lg p-6 border border-blue-100">
-          <h2 class="text-lg font-semibold mb-2">Breath Check</h2>
-          <p class="text-sm text-gray-600 mb-2">Quick breath and relaxation timer tool.</p>
-          <span class="inline-block bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded">#Wellness</span>
-        </a>
-
-      </div>
+    <main class="max-w-7xl mx-auto px-4 py-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <a href="https://notebook-vnx-viusmedia.replit.app/" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">📝 Notebook VNX</h2>
+        <p class="mt-2 text-sm text-gray-600">Your personal note-taking companion with clean UI.</p>
+      </a>
+      <a href="https://task-trackr-viusmedia.replit.app/" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">📋 Task Trackr</h2>
+        <p class="mt-2 text-sm text-gray-600">Track tasks and stay organized effortlessly.</p>
+      </a>
+      <a href="https://network-diagnostic-tool-viusmedia.replit.app/" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">🌐 Network Diagnostic Tool</h2>
+        <p class="mt-2 text-sm text-gray-600">Run diagnostics to troubleshoot network issues.</p>
+      </a>
+      <a href="https://statusreport-viusmedia.replit.app/" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">📊 Status Report</h2>
+        <p class="mt-2 text-sm text-gray-600">Generate weekly reports with ease.</p>
+      </a>
+      <a href="https://scam-shield-viusmedia.replit.app/" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">🛡 Scam Shield</h2>
+        <p class="mt-2 text-sm text-gray-600">Protect yourself from online scams.</p>
+      </a>
+      <a href="https://flight-tracker-viusmedia.replit.app/auth" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">✈️ Flight Tracker</h2>
+        <p class="mt-2 text-sm text-gray-600">Track flights and get real-time updates.</p>
+      </a>
+      <a href="https://breath-check-viusmedia.replit.app/" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">💨 Breath Check</h2>
+        <p class="mt-2 text-sm text-gray-600">Assess breathing and relaxation in seconds.</p>
+      </a>
+      <a href="https://event-master-pro-viusmedia.replit.app/" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">🎟 Event Master Pro</h2>
+        <p class="mt-2 text-sm text-gray-600">Plan and manage events professionally.</p>
+      </a>
+      <a href="https://photo-mosaic-viusmedia.replit.app/" class="block bg-white rounded-xl shadow p-6 hover:bg-blue-50">
+        <h2 class="text-xl font-semibold">🖼 Photo Mosaic</h2>
+        <p class="mt-2 text-sm text-gray-600">Turn your photos into unique mosaics.</p>
+      </a>
     </main>
 
-    <!-- Footer -->
-    <footer class="text-center text-sm text-gray-500 py-8">
-      &copy; 2025 VNX Nexus. All rights reserved.
+    <footer class="bg-blue-800 text-white text-center p-4 mt-10">
+      <p>&copy; 2025 VNX Nexus. All rights reserved.</p>
     </footer>
   </body>
 </html>
