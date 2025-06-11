@@ -1,20 +1,8 @@
 {
-  "cookie_message": "We use cookies to enhance your experience.",
-  "learn_more": "Learn more",
-  "accept": "Accept",
-  "decline": "Decline",
-  "welcome": "Welcome to VNX Nexus",
-  "tagline": "Your digital hub for tools, platforms, and innovation",
-  "nav_tools": "Tools",
-  "nav_platforms": "Platforms",
-  "nav_directories": "Directories",
-  "nav_resources": "Resources",
-  "nav_community": "Community",
-  "nav_marketplace": "Marketplace",
-  "nav_insights": "Insights",
-  "nav_experiences": "Experiences",
-  "nav_trends": "Trends",
-  "nav_ventures": "Ventures",
-  "sign_in": "Sign In",
-  "get_started": "Get Started"
+  "cookie_message": "我们使用 cookie 来提升您的体验。",
+  "learn_more": "了解更多",
+  "accept": "接受",
+  "decline": "拒绝",
+  "welcome": "欢迎来到 VNX Nexus",
+  "tagline": "您的工具、平台和创新数字中心"
 }
