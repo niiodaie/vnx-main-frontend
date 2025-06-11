@@ -2,34 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VNX – Trends</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VNX Trends | Stay Ahead of the Curve</title>
+  <meta name="description" content="Explore trending news, innovations, and insights across industries with VNX Trends.">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
-  <header class="bg-indigo-700 text-white py-6 shadow-md">
-    <div class="max-w-5xl mx-auto px-4">
-      <h1 class="text-3xl font-bold">VNX – Trends</h1>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-blue-700 text-white p-6 shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">VNX Trends</h1>
+      <input type="text" placeholder="Search trends..." class="rounded-md px-3 py-1 text-gray-700">
     </div>
   </header>
-  <main class="max-w-5xl mx-auto px-4 py-10 space-y-8">
-    <section>
-      <h2 class="text-2xl font-semibold mb-3">About Trends</h2>
-      <p class="text-lg leading-relaxed">Explore breakthrough ideas, forecasts, and data surrounding the VNX system. Stay ahead with actionable insights in tech, society, and business.</p>
-    </section>
-    <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <div class="bg-white p-5 rounded shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-bold mb-2">AI-Powered Everything</h3>
-        <p class="text-gray-600">From smart cities to diagnostics — AI continues to shape all industries at scale.</p>
+
+  <!-- Section -->
+  <main class="max-w-7xl mx-auto px-4 py-10">
+    <h2 class="text-xl font-semibold mb-6">Latest Trend Tools</h2>
+
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Card -->
+      <div class="bg-white border rounded-lg shadow hover:shadow-md transition duration-200">
+        <iframe 
+          src="https://dynamic-crisp-018405.netlify.app/"
+          class="w-full h-64 rounded-t-lg"
+          loading="lazy"
+        ></iframe>
+        <div class="p-4">
+          <h3 class="font-bold text-lg mb-2">VNX Trend Portal</h3>
+          <p class="text-sm text-gray-600">Stay ahead with curated news, insights, and innovation updates.</p>
+        </div>
       </div>
-      <div class="bg-white p-5 rounded shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-bold mb-2">Global Digital Nomad Rise</h3>
-        <p class="text-gray-600">The freedom-based workforce is reshaping work culture worldwide.</p>
-      </div>
-    </section>
+    </div>
   </main>
-  <footer class="text-center py-6 border-t mt-10 text-sm text-gray-500">
-    &copy; 2025 Visnec Nexus – Trends
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 text-center p-4 text-sm text-gray-500 mt-10">
+    &copy; 2025 Visnec Nexus (VNX). All rights reserved.
   </footer>
 </body>
 </html>
