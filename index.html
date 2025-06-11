@@ -348,24 +348,34 @@
     // Add more country-language mappings as needed
   };
 
-  // Set language based on country code
-  function setLanguageByCountry(countryCode) {
-    const lang = countryLangMap[countryCode] || 'en';
-    i18next.changeLanguage(lang, () => {
-      updateContent();
-      // Optional: update UI to reflect active language if you have language buttons
+ <script>
+  // Global language change function for manual selection
+  function changeLang(lng) {
+    i18next.changeLanguage(lng, updateContent);
+    localStorage.setItem('preferredLang', lng);
+  }
+
+  // Update translated content on the page
+  function updateContent() {
+    document.querySelectorAll('[data-i18n]').forEach(elem => {
+      const key = elem.getAttribute('data-i18n');
+      elem.innerHTML = i18next.t(key);
     });
   }
 
-  // Detect user location and set language accordingly
+  // Set language based on detected country
+  function setLanguageByCountry(countryCode) {
+    const lang = countryLangMap[countryCode] || 'en';
+    i18next.changeLanguage(lang, updateContent);
+    localStorage.setItem('preferredLang', lang);
+  }
+
+  // Detect user location and set language
   function detectUserLocation() {
-    // Try browser geolocation API first
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {
-          // Here you can do reverse geocoding if needed to get country
-          // For now, fallback to IP geolocation for country detection
-          fallbackIPGeolocation();
+          fallbackIPGeolocation(); // Could add reverse geocoding here
         },
         error => {
           console.warn('Browser geolocation error:', error.message);
@@ -374,12 +384,12 @@
         { timeout: 5000 }
       );
     } else {
-      console.warn('Browser geolocation not supported, falling back to IP geolocation');
+      console.warn('Browser geolocation not supported');
       fallbackIPGeolocation();
     }
   }
 
-  // IP geolocation fallback using ipapi.co
+  // Fallback to IP geolocation
   function fallbackIPGeolocation() {
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
@@ -391,5 +401,72 @@
         console.warn('IP geolocation failed:', err);
         setLanguageByCountry('en'); // fallback language
       });
+  }
+
+  // Country to language mapping
+  const countryLangMap = {
+    'KE': 'sw', 'TZ': 'sw', 'UG': 'sw',
+    'US': 'en', 'FR': 'fr', 'ES': 'es'
+  };
+
+  // Initialize i18next
+  i18next
+    .use(i18nextHttpBackend)
+    .use(i18nextBrowserLanguageDetector)
+    .init({
+      fallbackLng: 'en',
+      debug: false,
+      backend: {
+        loadPath: '/locales/{{lng}}/translation.json'
+      }
+    }, function(err, t) {
+      if (err) return console.error('i18next init failed:', err);
+      updateContent();
+      showCookieConsent();
+      detectUserLocation();
+
+      // Check for saved preferred language and override
+      const savedLang = localStorage.getItem('preferredLang');
+      if (savedLang) {
+        i18next.changeLanguage(savedLang, updateContent);
+      }
+    });
+
+  // Cookie consent (unchanged from earlier)
+  function showCookieConsent() {
+    if (!localStorage.getItem("cookieConsentV2")) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "fixed bottom-0 inset-x-0 bg-black text-white text-sm p-4 flex flex-col md:flex-row justify-between items-center z-[10000]";
+
+      const message = document.createElement("div");
+      message.className = "mb-2 md:mb-0";
+      message.innerHTML = i18next.t('cookie_message') + 
+        ' <a href="/privacy.html" class="underline text-teal-400 ml-2" target="_blank">' + i18next.t('learn_more') + '</a>';
+
+      const buttons = document.createElement("div");
+      buttons.className = "space-x-2 flex";
+
+      const acceptBtn = document.createElement("button");
+      acceptBtn.textContent = i18next.t('accept');
+      acceptBtn.className = "bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded";
+      acceptBtn.onclick = () => {
+        localStorage.setItem("cookieConsentV2", "accepted");
+        wrapper.remove();
+      };
+
+      const declineBtn = document.createElement("button");
+      declineBtn.textContent = i18next.t('decline');
+      declineBtn.className = "bg-gray-500 hover:bg-gray-600 text-white py-1 px-3 rounded";
+      declineBtn.onclick = () => {
+        localStorage.setItem("cookieConsentV2", "declined");
+        wrapper.remove();
+      };
+
+      buttons.appendChild(acceptBtn);
+      buttons.appendChild(declineBtn);
+      wrapper.appendChild(message);
+      wrapper.appendChild(buttons);
+      document.body.appendChild(wrapper);
+    }
   }
 </script>
