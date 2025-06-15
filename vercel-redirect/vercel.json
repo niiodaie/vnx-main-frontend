@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "/",
-      "destination": "https://tools.visnec.ai/notebook",
+      "source": "/notebook",
+      "destination": "https://vnx-note.visnec.ai",
       "permanent": true
     }
   ]
