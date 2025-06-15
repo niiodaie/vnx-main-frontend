@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/notebook",
+      "destination": "https://vnx-note.visnec.ai",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
