@@ -1,9 +1,0 @@
-{
-  "redirects": [
-    {
-      "source": "/notebook",
-      "destination": "https://vnx-note.visnec.ai",
-      "permanent": true
-    }
-  ]
-}
