@@ -16,7 +16,7 @@
       "destination": "/privacy.html"
     },
     {
-      "source": "/(?!notebook).*",
+      "source": "/((?!notebook).*)",
       "destination": "/index.html"
     }
   ],
