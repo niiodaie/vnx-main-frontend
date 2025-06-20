@@ -1,6 +1,6 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './style.css'  // Corrected: previously ./index.css or missing
+import './style.css'
+import tsLogo from './assets/typescript.svg'
+import viteLogo from './assets/vite.svg'
 import App from './App'
 
 createRoot(document.getElementById('root')!).render(
