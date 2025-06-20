@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { PlusCircle, Search, Menu, X, FileText, Tags, Compass, Settings, Bot } from 'lucide-react'
 
-// Mock data for VNX notes
+// Mock notes data
 const sampleNotes = [
   {
     id: 1,
     title: "Machine Learning Research Notes",
-    content: "# Deep Learning Fundamentals\n\nToday I explored the basics of neural networks and backpropagation. Key insights:\n\n- Gradient descent optimization\n- Activation functions (ReLU, Sigmoid, Tanh)\n- Loss functions for different tasks\n\n**Next Steps:** Implement a simple neural network from scratch using NumPy.",
-    excerpt: "Today I explored the basics of neural networks and backpropagation. Key insights: Gradient descent optimization, Activation functions...",
-    tags: ["machine-learning", "research", "deep-learning"],
+    content: "# Deep Learning Fundamentals\n\nToday I explored the basics of neural networks...",
+    excerpt: "Today I explored the basics of neural networks and backpropagation...",
+    tags: ["machine-learning", "research"],
     isBookmarked: true,
     wordCount: 45,
     lastModified: "2024-01-15T10:30:00Z"
@@ -16,22 +16,12 @@ const sampleNotes = [
   {
     id: 2,
     title: "Project Planning - Q1 2024",
-    content: "# Q1 2024 Goals\n\n## Technical Objectives\n1. Complete the notebook application\n2. Implement AI features\n3. Add export functionality\n\n## Research Areas\n- Natural Language Processing\n- Computer Vision applications\n- MLOps best practices",
-    excerpt: "Q1 2024 Goals: Complete the notebook application, Implement AI features, Add export functionality...",
-    tags: ["planning", "goals", "2024"],
+    content: "# Q1 2024 Goals\n\n## Technical Objectives\n...",
+    excerpt: "Q1 2024 Goals: Complete the notebook application...",
+    tags: ["planning", "goals"],
     isBookmarked: false,
     wordCount: 35,
     lastModified: "2024-01-12T14:20:00Z"
-  },
-  {
-    id: 3,
-    title: "Literature Review: Transformer Architecture",
-    content: "# Transformer Architecture Review\n\n## Key Papers\n1. **Attention Is All You Need** (Vaswani et al., 2017)\n2. **BERT** (Devlin et al., 2018)\n3. **GPT Series** (Radford et al.)\n\n## Key Concepts\n- Self-attention mechanism\n- Positional encoding\n- Multi-head attention\n\n*Note: Need to dive deeper into the mathematical foundations.*",
-    excerpt: "Key Papers: Attention Is All You Need (Vaswani et al., 2017), BERT (Devlin et al., 2018), GPT Series...",
-    tags: ["literature-review", "transformers", "nlp", "research"],
-    isBookmarked: true,
-    wordCount: 52,
-    lastModified: "2024-01-10T09:15:00Z"
   }
 ]
 
@@ -43,7 +33,7 @@ function App() {
   const [isAIOpen, setIsAIOpen] = useState(false)
 
   const selectedNote = sampleNotes.find(note => note.id === selectedNoteId) || sampleNotes[0]
-  const filteredNotes = sampleNotes.filter(note => 
+  const filteredNotes = sampleNotes.filter(note =>
     note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     note.content.toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -60,9 +50,9 @@ function App() {
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
-            <h1 className="text-xl font-bold vnx-blue">Notebook VNX</h1>
+            <h1 className="text-xl font-bold text-blue-700">Notebook VNX</h1>
           </div>
-          
+
           <nav className="hidden md:flex items-center space-x-6">
             {[
               { id: "notes", label: "Notes", icon: FileText },
@@ -105,7 +95,7 @@ function App() {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pt-4 border-t border-gray-200">
             <nav className="flex flex-col space-y-2">
@@ -148,7 +138,6 @@ function App() {
                   <span>New VNX Note</span>
                 </button>
               </div>
-              
               <div className="flex-1 overflow-y-auto">
                 {filteredNotes.map((note) => (
                   <div
@@ -178,38 +167,36 @@ function App() {
               </div>
             </div>
 
-            {/* Editor */}
+            {/* Editor Panel */}
             <div className="flex-1 flex flex-col">
               <div className="p-4 border-b border-gray-200 bg-white">
                 <input
                   type="text"
                   value={selectedNote.title}
+                  readOnly
                   className="w-full text-2xl font-bold border-none outline-none bg-transparent"
                   placeholder="Note title..."
                 />
               </div>
-              
               <div className="flex-1 p-4 bg-white">
                 <textarea
                   value={selectedNote.content}
+                  readOnly
                   className="w-full h-full border-none outline-none resize-none font-mono"
                   placeholder="Start writing your VNX note..."
                 />
               </div>
             </div>
 
-            {/* AI Assistant Panel */}
+            {/* AI Assistant */}
             {isAIOpen && (
               <div className="w-80 bg-white border-l border-gray-200 flex flex-col">
                 <div className="p-4 border-b border-gray-200">
                   <h3 className="font-semibold text-gray-900">AI Assistant</h3>
                 </div>
                 <div className="flex-1 p-4">
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <p className="text-sm text-blue-800">
-                      AI features are coming soon! This will include note summarization, 
-                      content suggestions, and smart organization.
-                    </p>
+                  <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800">
+                    AI features are coming soon! Expect note summarization and smart content suggestions.
                   </div>
                 </div>
               </div>
@@ -217,7 +204,7 @@ function App() {
           </>
         )}
 
-        {/* Other tabs content */}
+        {/* Placeholder tabs */}
         {activeTab !== "notes" && (
           <div className="flex-1 flex items-center justify-center bg-white">
             <div className="text-center">
@@ -225,20 +212,16 @@ function App() {
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
                 {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Coming Soon
               </h2>
-              <p className="text-gray-600">
-                This feature is under development and will be available soon.
-              </p>
+              <p className="text-gray-600">This feature is under development.</p>
             </div>
           </div>
         )}
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 px-4 py-2">
-        <div className="flex items-center justify-between text-sm text-gray-500">
-          <span>Powered by Visnec Nexus | Notebook VNX</span>
-          <span>v1.0.0</span>
-        </div>
+      <footer className="bg-white border-t border-gray-200 px-4 py-2 text-sm text-gray-500 flex justify-between">
+        <span>Powered by Visnec Nexus | Notebook VNX</span>
+        <span>v1.0.0</span>
       </footer>
     </div>
   )
