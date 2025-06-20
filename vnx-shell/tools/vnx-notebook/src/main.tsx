@@ -1,10 +1,10 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './style.css'; // ✅ Correct
-import App from './App.tsx'; // ✅ Correct
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './style.css'  // Corrected: previously ./index.css or missing
+import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
-  </StrictMode>,
-);
+  </StrictMode>
+)
