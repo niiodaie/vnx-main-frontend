@@ -78,7 +78,7 @@ html {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border border-gray-300;
   }
 
   body {
