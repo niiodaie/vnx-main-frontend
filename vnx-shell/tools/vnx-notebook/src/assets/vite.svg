@@ -1,16 +1,1 @@
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 404">
-  <defs>
-    <linearGradient id="a" x1="141" x2="248" y1="11" y2="292" gradientUnits="userSpaceOnUse">
-      <stop offset=".1" stop-color="#41d1ff"/>
-      <stop offset="1" stop-color="#bd34fe"/>
-    </linearGradient>
-    <linearGradient id="b" x1="186" x2="214" y1="120" y2="169" gradientUnits="userSpaceOnUse">
-      <stop offset=".1" stop-color="#ffea83"/>
-      <stop offset=".5" stop-color="#ffdd35"/>
-      <stop offset="1" stop-color="#ffa800"/>
-    </linearGradient>
-  </defs>
-  <path fill="url(#a)" d="M399 37c-3-7-11-11-19-9L24 90c-9 2-15 11-14 20l43 248c2 10 11 17 21 17h238c9 0 17-6 19-15l70-334c2-7 0-14-6-19z"/>
-  <path fill="url(#b)" d="M250 83l-93 132h51l-13 101 93-132h-51z"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 404"><path fill="#41D1FF" d="M405 41 223 399c-8 15-28 15-36 0L5 41c-9-17 8-37 25-33l173 38 173-38c17-4 34 16 25 33z"/><path fill="#FFFFFF" d="M243 136h-75v33h44c-4 25-23 34-43 33-18-1-31-11-38-27l-31 13c10 23 32 43 69 43 39 0 71-24 71-72v-23z"/></svg>
