@@ -10,5 +10,6 @@
     "express": "^4.21.2",
     "cors": "^2.8.5",
     "uuid": "^9.0.0"
-  }
+  },
+  "devDependencies": {}
 }
