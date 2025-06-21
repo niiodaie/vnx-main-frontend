@@ -3,55 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Notebook VNX helps you write, organize, and search smart notes instantly." />
+  <meta property="og:title" content="Notebook VNX" />
+  <meta property="og:description" content="Smart note-taking powered by Visnec Nexus." />
+  <link rel="icon" type="image/png" href="/notebook-icon.png" />
   <title>Notebook VNX</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800">
-
-  <!-- Header -->
-  <header class="flex items-center justify-between bg-red-700 text-white px-6 py-4 shadow-md">
-    <div class="flex items-center gap-2">
-      <img src="/logo.png" alt="Logo" class="h-6 w-6" />
-      <h1 class="text-2xl font-bold">Notebook VNX</h1>
-    </div>
-    <p class="text-sm hidden md:block">Smart notes powered by Visnec Nexus</p>
+<body class="bg-gray-100 text-gray-900">
+  <header class="bg-red-700 text-white p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">📕 Notebook VNX</h1>
+    <span class="text-sm">Smart notes powered by Visnec Nexus</span>
   </header>
 
-  <!-- Navigation -->
-  <nav class="sticky top-0 bg-white border-b flex space-x-6 text-blue-600 font-semibold px-6 py-3 shadow z-10">
-    <a href="#">Notes</a>
-    <a href="#">Tags</a>
-    <a href="#">Explore</a>
-    <a href="#">Settings</a>
+  <nav class="bg-white shadow p-2 flex gap-6 text-blue-700 font-medium px-6">
+    <a href="#" class="hover:underline">Notes</a>
+    <a href="#" class="hover:underline">Tags</a>
+    <a href="#" class="hover:underline">Explore</a>
+    <a href="#" class="hover:underline">Settings</a>
   </nav>
 
-  <!-- Main -->
-  <main class="max-w-4xl mx-auto px-4 py-10 space-y-6">
+  <main class="p-6 max-w-4xl mx-auto">
+    <input type="text" placeholder="Search notes..." class="w-full border rounded px-4 py-2 mb-6" />
 
-    <!-- Search -->
-    <input type="text" placeholder="Search notes..." class="w-full p-3 border rounded shadow-sm focus:ring focus:outline-none" />
-
-    <!-- Note Card -->
     <div class="bg-white rounded shadow p-6">
       <h2 class="text-xl font-semibold mb-2">Machine Learning Research Notes</h2>
-      <p class="mb-4">Today I explored the basics of neural networks and backpropagation. Key insights: Gradient descent, activation functions...</p>
-      <div class="flex flex-wrap gap-2 text-sm text-gray-600">
-        <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded">#deep-learning</span>
+      <p class="mb-2">Today I explored the basics of neural networks and backpropagation. Key insights: Gradient descent, activation functions...</p>
+      <div class="text-sm text-gray-600 flex gap-4">
+        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">#deep-learning</span>
         <span>| Date: Jan 15, 2024</span>
       </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="text-center text-sm text-gray-500 pt-8">
-      Powered by Visnec Nexus | Notebook VNX v1.0.0
-    </footer>
   </main>
 
-  <!-- Floating New Note Button -->
-  <a href="#"
-     class="fixed bottom-6 right-6 bg-red-700 text-white px-5 py-3 rounded-full shadow-lg hover:bg-red-800 transition">
-    + New Note
-  </a>
+  <footer class="text-center py-6 text-sm text-gray-500">
+    Powered by Visnec Nexus | Notebook VNX v1.0.0
+  </footer>
 
+  <button class="fixed bottom-6 right-6 bg-red-700 text-white px-5 py-3 rounded-full shadow-lg hover:bg-red-800 transition">+ New Note</button>
 </body>
 </html>
