@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "private": true,
- "scripts": {
-  "build": "vite build",
-  "start": "vite"
-}
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "express": "^4.21.2",
     "cors": "^2.8.5",
