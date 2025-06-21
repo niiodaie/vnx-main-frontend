@@ -1,7 +1,7 @@
 // src/components/EditModal.jsx
 import React from "react";
 
-const EditModal = ({ note, onChange, onClose, onSave }) => {
+const EditModal = ({ note = {}, onChange, onClose, onSave }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-full max-w-md">
@@ -9,21 +9,21 @@ const EditModal = ({ note, onChange, onClose, onSave }) => {
         <input
           type="text"
           className="w-full border p-2 mb-3"
-          value={note.title}
+          value={note?.title || ""}
           onChange={(e) => onChange({ ...note, title: e.target.value })}
           placeholder="Title"
         />
         <textarea
           className="w-full border p-2 mb-3"
           rows="4"
-          value={note.content}
+          value={note?.content || ""}
           onChange={(e) => onChange({ ...note, content: e.target.value })}
           placeholder="Content"
         />
         <input
           type="text"
           className="w-full border p-2 mb-3"
-          value={note.tag}
+          value={note?.tag || ""}
           onChange={(e) => onChange({ ...note, tag: e.target.value })}
           placeholder="Tag"
         />
