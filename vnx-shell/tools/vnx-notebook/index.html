@@ -1,45 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Notebook VNX helps you write, organize, and search smart notes instantly." />
-  <meta property="og:title" content="Notebook VNX" />
-  <meta property="og:description" content="Smart note-taking powered by Visnec Nexus." />
-  <link rel="icon" type="image/png" href="/notebook-icon.png" />
-  <title>Notebook VNX</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 text-gray-900">
-  <header class="bg-red-700 text-white p-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold">📕 Notebook VNX</h1>
-    <span class="text-sm">Smart notes powered by Visnec Nexus</span>
-  </header>
+// src/components/EditModal.jsx
+import React from "react";
 
-  <nav class="bg-white shadow p-2 flex gap-6 text-blue-700 font-medium px-6">
-    <a href="#" class="hover:underline">Notes</a>
-    <a href="#" class="hover:underline">Tags</a>
-    <a href="#" class="hover:underline">Explore</a>
-    <a href="#" class="hover:underline">Settings</a>
-  </nav>
-
-  <main class="p-6 max-w-4xl mx-auto">
-    <input type="text" placeholder="Search notes..." class="w-full border rounded px-4 py-2 mb-6" />
-
-    <div class="bg-white rounded shadow p-6">
-      <h2 class="text-xl font-semibold mb-2">Machine Learning Research Notes</h2>
-      <p class="mb-2">Today I explored the basics of neural networks and backpropagation. Key insights: Gradient descent, activation functions...</p>
-      <div class="text-sm text-gray-600 flex gap-4">
-        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">#deep-learning</span>
-        <span>| Date: Jan 15, 2024</span>
+const EditModal = ({ note, onChange, onClose, onSave }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white p-6 rounded-lg w-full max-w-md">
+        <h2 className="text-xl font-semibold mb-4">Edit Note</h2>
+        <input
+          type="text"
+          className="w-full border p-2 mb-3"
+          value={note.title}
+          onChange={(e) => onChange({ ...note, title: e.target.value })}
+          placeholder="Title"
+        />
+        <textarea
+          className="w-full border p-2 mb-3"
+          rows="4"
+          value={note.content}
+          onChange={(e) => onChange({ ...note, content: e.target.value })}
+          placeholder="Content"
+        />
+        <input
+          type="text"
+          className="w-full border p-2 mb-3"
+          value={note.tag}
+          onChange={(e) => onChange({ ...note, tag: e.target.value })}
+          placeholder="Tag"
+        />
+        <div className="flex justify-between">
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            onClick={onSave}
+          >
+            Save
+          </button>
+          <button
+            className="text-gray-600 hover:underline"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
-  </main>
+  );
+};
 
-  <footer class="text-center py-6 text-sm text-gray-500">
-    Powered by Visnec Nexus | Notebook VNX v1.0.0
-  </footer>
+export default EditModal;
 
-  <button class="fixed bottom-6 right-6 bg-red-700 text-white px-5 py-3 rounded-full shadow-lg hover:bg-red-800 transition">+ New Note</button>
-</body>
-</html>
+
+// ---- Update App.jsx or relevant parent component ----
+
+// Add to state:
+// const [isEditing, setIsEditing] = useState(false);
+// const [editNote, setEditNote] = useState(null);
+
+// Add function:
+// const openEditModal = (note) => {
+//   setEditNote(note);
+//   setIsEditing(true);
+// };
+
+// const handleSaveEdit = () => {
+//   const updatedNotes = notes.map((n) => n.id === editNote.id ? editNote : n);
+//   setNotes(updatedNotes);
+//   localStorage.setItem("notes", JSON.stringify(updatedNotes));
+//   setIsEditing(false);
+// };
+
+// Render:
+// {isEditing && (
+//   <EditModal
+//     note={editNote}
+//     onChange={setEditNote}
+//     onClose={() => setIsEditing(false)}
+//     onSave={handleSaveEdit}
+//   />
+// )}
+
+
+// ---- Add Edit Button in NoteCard ----
+
+// <button
+//   className="text-blue-500 hover:underline text-sm"
+//   onClick={() => openEditModal(note)}
+// >
+//   ✏️ Edit
+// </button>
