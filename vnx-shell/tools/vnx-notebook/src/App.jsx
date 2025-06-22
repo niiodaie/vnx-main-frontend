@@ -94,22 +94,22 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">🧠 Notebook VNX</h1>
-
-      <div className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-md">
-        <input
-          type="text"
-          placeholder="Title"
-          className="w-full border border-gray-300 rounded p-2 mb-3"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+  <div className="min-h-screen bg-gray-100 p-6">
+    <h1 className="text-3xl font-bold text-center mb-6">🧠 Notebook VNX</h1>
+    
+    <div className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-md">
+      <input
+        type="text"
+        placeholder="Title"
+        className="w-full border border-gray-300 rounded p-2 mb-3"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         />
-        <textarea
-          placeholder="Content"
-          className="w-full border border-gray-300 rounded p-2 mb-3 h-24"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+       <textarea
+        placeholder="Content"
+        className="w-full border border-gray-300 rounded p-2 mb-3 h-24"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
         />
         <input
   type="text"
