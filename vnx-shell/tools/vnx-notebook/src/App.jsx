@@ -1,50 +1,52 @@
 import { useState, useEffect } from 'react';
+import { supabase } from './supabase'; // ✅ Make sure this path is correct
 
 const App = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState('');
-  const [saving, setSaving] = useState(false);  // <-- THIS LINE
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [notes, setNotes] = useState([]);
 
-  // rest of your logic...
+  // ✅ Moved fetchNotes outside so it can be reused
+  const fetchNotes = async () => {
+    const { data, error } = await supabase
+      .from('notes')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-  // 🔁 Fetch notes from Supabase on load
+    if (error) {
+      console.error('Error fetching notes:', error.message);
+    } else {
+      setNotes(data);
+    }
+  };
+
   useEffect(() => {
-    const fetchNotes = async () => {
-      const { data, error } = await supabase
-        .from('notes')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching notes:', error.message);
-      } else {
-        setNotes(data);
-      }
-    };
-
     fetchNotes();
   }, []);
 
- const handleSaveNote = async () => {
-  setSaving(true);
-  const { data, error } = await supabase
-    .from('notes')
-    .insert([{ title, content, tag }]);
+  const handleSaveNote = async () => {
+    setSaving(true);
+    setError('');
 
-  if (error) {
-    setError('Failed to save note.');
-  } else {
-    setTitle('');
-    setContent('');
-    setTag('');
-    await fetchNotes();  // <-- THIS is what you're missing
-  }
+    const { error } = await supabase
+      .from('notes')
+      .insert([{ title, content, tag }]);
 
-  setSaving(false);
-};
+    if (error) {
+      setError('Failed to save note.');
+    } else {
+      setTitle('');
+      setContent('');
+      setTag('');
+      await fetchNotes(); // ✅ refresh notes
+    }
+
+    setSaving(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold text-center mb-6">🧠 Notebook VNX</h1>
@@ -78,9 +80,9 @@ const App = () => {
               ? 'bg-blue-600 hover:bg-blue-700'
               : 'bg-blue-300 cursor-not-allowed'
           }`}
-          disabled={!title || !content}
+          disabled={!title || !content || saving}
         >
-          Save Note
+          {saving ? 'Saving...' : 'Save Note'}
         </button>
       </div>
 
@@ -106,6 +108,6 @@ const App = () => {
       </div>
     </div>
   );
-}
+};
 
 export default App;
