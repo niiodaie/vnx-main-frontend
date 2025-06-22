@@ -106,30 +106,34 @@ const App = () => {
         </button>
       </div>
 
-      <div className="mt-8 max-w-2xl mx-auto">
-        <h2 className="text-xl font-bold mb-4">📝 Your Notes</h2>
-        {notes.length === 0 ? (
-          <p className="text-gray-500">No notes yet.</p>
-        ) : (
-         <ul className="space-y-4">
-  {notes.map((note, index) => (
-    <li key={index} className="bg-white p-4 rounded shadow">
-      <h3 className="text-lg font-semibold">{note.title}</h3>
-      <p className="text-gray-700 mt-1">{note.content}</p>
+   return (
+  <div className="mt-8 max-w-2xl mx-auto">
+    <h2 className="text-xl font-bold mb-4">📝 Your Notes</h2>
+    {notes.length === 0 ? (
+      <p className="text-gray-500">No notes yet.</p>
+    ) : (
+      <ul className="space-y-4">
+        {notes.map((note, index) => (
+          <li key={index} className="bg-white p-4 rounded shadow">
+            <h3 className="text-lg font-semibold">{note.title}</h3>
+            <p className="text-gray-700 mt-1">{note.content}</p>
 
-      {note.tag && (
-        <span className="text-sm mt-2 inline-block text-blue-600">
-          #{note.tag}
-        </span>
-      )}
+            {note.tag && (
+              <span className="text-sm mt-2 inline-block text-blue-600">
+                #{note.tag}
+              </span>
+            )}
 
-      {note.language && (
-        <span className="text-sm mt-1 block text-purple-600 italic">
-          Language: {note.language}
-        </span>
-      )}
-    </li>
-  ))}
-</ul>
+            {note.language && (
+              <span className="text-sm mt-1 block text-purple-600 italic">
+                Language: {note.language}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+);
 
 export default App;
