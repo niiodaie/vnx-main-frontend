@@ -96,7 +96,6 @@ const App = () => {
   return (
     // ...your UI code
   );
-};
 
     setSaving(false);
   };
