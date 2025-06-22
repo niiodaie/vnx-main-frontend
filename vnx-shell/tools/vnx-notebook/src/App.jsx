@@ -113,27 +113,25 @@ const App = () => {
       <p className="text-gray-500">No notes yet.</p>
     ) : (
       <ul className="space-y-4">
-        {notes.map((note, index) => (
-          <li key={index} className="bg-white p-4 rounded shadow">
-            <h3 className="text-lg font-semibold">{note.title}</h3>
-            <p className="text-gray-700 mt-1">{note.content}</p>
+  {notes.map((note, index) => (
+    <li key={index} className="bg-white p-4 rounded shadow">
+      <h3 className="text-lg font-semibold">{note.title}</h3>
+      <p className="text-gray-700 mt-1">{note.content}</p>
 
-            {note.tag && (
-              <span className="text-sm mt-2 inline-block text-blue-600">
-                #{note.tag}
-              </span>
-            )}
+      {note.tag && (
+        <span className="text-sm mt-2 inline-block text-blue-600">
+          #{note.tag}
+        </span>
+      )}
 
-            {note.language && (
-              <span className="text-sm mt-1 block text-purple-600 italic">
-                Language: {note.language}
-              </span>
-                       ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
-};
+      {note.language && (
+        <span className="text-sm mt-1 block text-purple-600 italic">
+          Language: {note.language}
+        </span>
+      )}
+    </li>
+  ))}
+</ul>
+
 
 export default App;
