@@ -1,75 +1,86 @@
-import React, { useState } from "react";
+// src/App.jsx
+import React, { useEffect, useState } from 'react';
+import { supabase } from './supabaseClient';
 
-const NewNoteForm = ({ onSave }) => {
-  const [newNote, setNewNote] = useState({
-    title: "",
-    content: "",
-    tag: "",
-  });
+export default function App() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [tag, setTag] = useState('');
+  const [notes, setNotes] = useState([]);
+  const [error, setError] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewNote((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const fetchNotes = async () => {
+    const { data, error } = await supabase.from('notes').select('*').order('created_at', { ascending: false });
+    if (!error) setNotes(data);
   };
 
-  const handleSave = () => {
-    if (!newNote.title.trim() || !newNote.content.trim()) return;
-    onSave(newNote);
-    setNewNote({ title: "", content: "", tag: "" }); // Clear form after save
-  };
+  const handleSave = async () => {
+    if (!title.trim() || !content.trim()) {
+      setError('Title and content are required.');
+      return;
+    }
 
-  const isSaveDisabled = !newNote.title.trim() || !newNote.content.trim();
+    setError('');
+    const { data, error } = await supabase.from('notes').insert([{ title, content, tag }]);
+    if (!error) {
+      setTitle('');
+      setContent('');
+      setTag('');
+      fetchNotes();
+    }
+  };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md max-w-lg w-full">
-      <h2 className="text-xl font-bold mb-4">+ New Note</h2>
-      <input
-        type="text"
-        name="title"
-        placeholder="Title"
-        value={newNote.title}
-        onChange={handleChange}
-        className="w-full border p-2 mb-3 rounded"
-      />
-      <textarea
-        name="content"
-        placeholder="Write your note here..."
-        rows="5"
-        value={newNote.content}
-        onChange={handleChange}
-        className="w-full border p-2 mb-3 rounded"
-      />
-      <input
-        type="text"
-        name="tag"
-        placeholder="Tag (e.g., ai, startup)"
-        value={newNote.tag}
-        onChange={handleChange}
-        className="w-full border p-2 mb-4 rounded"
-      />
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-2xl font-bold text-indigo-800 mb-6">🧠 Notebook VNX</h1>
 
-      <button
-        onClick={handleSave}
-        disabled={isSaveDisabled}
-        className={`w-full px-4 py-2 rounded text-white transition ${
-          isSaveDisabled
-            ? "bg-blue-300 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700"
-        }`}
-      >
-        Save Note
-      </button>
+      <div className="bg-white shadow-md rounded-md p-6 max-w-lg mx-auto">
+        <h2 className="text-lg font-semibold mb-4">+ New Note</h2>
+        <input
+          className="w-full border p-2 mb-3 rounded"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <textarea
+          className="w-full border p-2 mb-3 rounded"
+          rows={6}
+          placeholder="Write your note here..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <input
+          className="w-full border p-2 mb-3 rounded"
+          placeholder="Tag (e.g., ai, startup)"
+          value={tag}
+          onChange={(e) => setTag(e.target.value)}
+        />
 
-      {isSaveDisabled && (
-        <p className="text-sm text-red-500 mt-2">
-          Title and content are required.
-        </p>
-      )}
+        {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
+
+        <button
+          className={`w-full py-2 rounded text-white ${title && content ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-300 cursor-not-allowed'}`}
+          onClick={handleSave}
+          disabled={!title || !content}
+        >
+          Save Note
+        </button>
+      </div>
+
+      <div className="mt-10 max-w-lg mx-auto">
+        <h3 className="text-xl font-bold mb-4">📝 Your Notes</h3>
+        {notes.map((note) => (
+          <div key={note.id} className="bg-white rounded shadow p-4 mb-3">
+            <h4 className="font-semibold">{note.title}</h4>
+            <p className="text-sm text-gray-700">{note.content}</p>
+            {note.tag && <span className="inline-block text-xs mt-2 px-2 py-1 bg-gray-200 rounded">#{note.tag}</span>}
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
-
-export default NewNoteForm;
+}
