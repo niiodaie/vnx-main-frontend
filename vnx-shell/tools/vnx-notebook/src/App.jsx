@@ -1,85 +1,95 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'
+import { supabase } from './supabase'
 
 export default function NotebookVNX() {
-  const [notes, setNotes] = useState([]);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tag, setTag] = useState('');
+  const [notes, setNotes] = useState([])
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [tag, setTag] = useState('')
 
-  const handleSave = () => {
-    if (!title || !content) return;
-    const newNote = {
-      title,
-      content,
-      tag,
-      createdAt: new Date().toISOString()
-    };
-    setNotes([newNote, ...notes]);
-    setTitle('');
-    setContent('');
-    setTag('');
-  };
+  // Load notes on mount
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const { data, error } = await supabase
+        .from('notes')
+        .select('*')
+        .order('created_at', { ascending: false })
+      if (data) setNotes(data)
+      if (error) console.error('Fetch error:', error)
+    }
+
+    fetchNotes()
+  }, [])
+
+  // Save note to Supabase
+  const handleSave = async () => {
+    if (!title || !content) return
+    const { data, error } = await supabase.from('notes').insert([
+      { title, content, tag }
+    ])
+    if (error) {
+      console.error('Insert error:', error)
+    } else {
+      setNotes([data[0], ...notes])
+      setTitle('')
+      setContent('')
+      setTag('')
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 px-4 py-6">
-      {/* Header */}
-      <header className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-800">📓 Notebook VNX</h1>
-          <p className="text-sm text-slate-500">Smart notes powered by Visnec Nexus</p>
-        </div>
-        <div className="flex gap-2 items-center">
-          <span className="text-xs text-slate-500">Cloud Sync</span>
-          <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
-        </div>
+    <div className="min-h-screen bg-slate-100 px-6 py-8">
+      <header className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-slate-800">🧠 Notebook VNX</h1>
+        <span className="text-sm text-green-600 flex items-center gap-1">
+          Cloud Sync <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+        </span>
       </header>
 
-      {/* Note Input */}
-      <div className="bg-white rounded-xl shadow-md p-6 max-w-xl mx-auto mb-10">
-        <h2 className="text-lg font-semibold mb-4">+ New Note</h2>
+      <div className="bg-white p-6 rounded-xl shadow max-w-xl mx-auto">
+        <h2 className="text-lg font-semibold mb-3">+ New Note</h2>
         <input
-          className="w-full p-2 mb-3 rounded border border-slate-300 focus:outline-none"
+          className="w-full mb-3 p-2 border border-slate-300 rounded"
           placeholder="Title"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <textarea
-          className="w-full p-2 mb-3 rounded border border-slate-300 h-24 focus:outline-none"
+          className="w-full mb-3 p-2 border border-slate-300 rounded"
+          rows={4}
           placeholder="Write your note here..."
           value={content}
-          onChange={e => setContent(e.target.value)}
+          onChange={(e) => setContent(e.target.value)}
         />
         <input
-          className="w-full p-2 mb-3 rounded border border-slate-300 focus:outline-none"
-          placeholder="Tag (e.g., ai, learning)"
+          className="w-full mb-4 p-2 border border-slate-300 rounded"
+          placeholder="Tag (e.g., ai, startup)"
           value={tag}
-          onChange={e => setTag(e.target.value)}
+          onChange={(e) => setTag(e.target.value)}
         />
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
           onClick={handleSave}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
         >
           Save Note
         </button>
       </div>
 
-      {/* Notes Display */}
-      <div className="grid gap-4 max-w-4xl mx-auto">
-        {notes.length === 0 && (
-          <div className="text-center text-slate-500 italic">No notes yet. Start writing!</div>
-        )}
-        {notes.map((note, idx) => (
-          <div key={idx} className="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
-            <h3 className="font-semibold text-slate-800">{note.title}</h3>
-            <p className="text-slate-600 mb-2">{note.content}</p>
-            <div className="text-xs text-slate-400 flex justify-between">
+      <div className="mt-8 space-y-4 max-w-3xl mx-auto">
+        {notes.map((note) => (
+          <div
+            key={note.id}
+            className="bg-white p-4 rounded-xl shadow border-l-4 border-blue-400"
+          >
+            <h3 className="font-semibold">{note.title}</h3>
+            <p className="text-slate-600">{note.content}</p>
+            <div className="text-xs text-slate-400 mt-1 flex justify-between">
               <span>#{note.tag}</span>
-              <span>{new Date(note.createdAt).toLocaleDateString()}</span>
+              <span>{new Date(note.created_at).toLocaleDateString()}</span>
             </div>
           </div>
         ))}
       </div>
     </div>
-  );
+  )
 }
-
