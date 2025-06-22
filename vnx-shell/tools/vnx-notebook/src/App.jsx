@@ -8,6 +8,8 @@ const App = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [notes, setNotes] = useState([]);
+  const [language, setLanguage] = useState('text');
+
 
   // ✅ Moved fetchNotes outside so it can be reused
   const fetchNotes = async () => {
@@ -43,6 +45,58 @@ const App = () => {
       setTag('');
       await fetchNotes(); // ✅ refresh notes
     }
+    const App = () => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [tag, setTag] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [notes, setNotes] = useState([]);
+  const [language, setLanguage] = useState('text');
+
+  // ✅ Reusable fetchNotes function
+  const fetchNotes = async () => {
+    const { data, error } = await supabase
+      .from('notes')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching notes:', error.message);
+    } else {
+      setNotes(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  // ✅ Place this here:
+  const handleSaveNote = async () => {
+    setSaving(true);
+    setError('');
+    const { error } = await supabase
+      .from('notes')
+      .insert([{ title, content, tag, language }]);
+
+    if (error) {
+      setError('Failed to save note.');
+    } else {
+      setTitle('');
+      setContent('');
+      setTag('');
+      setLanguage('text');
+      await fetchNotes(); // refresh list
+    }
+
+    setSaving(false);
+  };
+
+  return (
+    // ...your UI code
+  );
+};
 
     setSaving(false);
   };
@@ -66,9 +120,26 @@ const App = () => {
           onChange={(e) => setContent(e.target.value)}
         />
         <input
-          type="text"
-          placeholder="Tag (optional)"
-          className="w-full border border-gray-300 rounded p-2 mb-3"
+  type="text"
+  placeholder="Tag (optional)"
+  className="w-full border border-gray-300 rounded p-2 mb-3"
+  value={tag}
+  onChange={(e) => setTag(e.target.value)}
+/>
+
+<select
+  className="w-full border border-gray-300 rounded p-2 mb-3"
+  value={language}
+  onChange={(e) => setLanguage(e.target.value)}
+>
+  <option value="text">Plain Text</option>
+  <option value="python">Python</option>
+  <option value="javascript">JavaScript</option>
+  <option value="bash">Bash</option>
+  <option value="html">HTML</option>
+</select>
+
+
           value={tag}
           onChange={(e) => setTag(e.target.value)}
         />
