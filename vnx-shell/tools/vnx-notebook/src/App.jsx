@@ -128,15 +128,12 @@ const App = () => {
               <span className="text-sm mt-1 block text-purple-600 italic">
                 Language: {note.language}
               </span>
-            )}
-          </li>
-        ))}
-      </ul>
-    )}
-  </div>
-    </ul>
-  </div>  // <- closes main .mt-8 container
-);        // <- closes return
+                       ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default App;
