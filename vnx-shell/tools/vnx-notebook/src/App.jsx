@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from './supabase'; // ✅ make sure this file exists
 
 function App() {
   const [title, setTitle] = useState('');
@@ -6,22 +7,39 @@ function App() {
   const [tag, setTag] = useState('');
   const [notes, setNotes] = useState([]);
 
-  // Load saved notes from localStorage on load
+  // ✅ Fetch notes from Supabase on load
   useEffect(() => {
-    const storedNotes = JSON.parse(localStorage.getItem('vnx-notes')) || [];
-    setNotes(storedNotes);
+    const fetchNotes = async () => {
+      const { data, error } = await supabase
+        .from('notes')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching notes:', error.message);
+      } else {
+        setNotes(data);
+      }
+    };
+
+    fetchNotes();
   }, []);
 
-  const handleSaveNote = () => {
+  // ✅ Save note to Supabase
+  const handleSaveNote = async () => {
     if (!title.trim() || !content.trim()) return;
 
-    const newNote = { title, content, tag };
-    const updatedNotes = [newNote, ...notes];
+    const { data, error } = await supabase
+      .from('notes')
+      .insert([{ title, content, tag }]);
 
-    setNotes(updatedNotes);
-    localStorage.setItem('vnx-notes', JSON.stringify(updatedNotes));
+    if (error) {
+      console.error('Error saving note:', error.message);
+      return;
+    }
 
-    // Clear inputs
+    // Prepend new note to UI
+    setNotes([data[0], ...notes]);
     setTitle('');
     setContent('');
     setTag('');
