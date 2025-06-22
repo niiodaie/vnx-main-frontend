@@ -38,12 +38,14 @@ const App = () => {
     setError('Failed to save note.');
     setTimeout(() => setError(''), 3000); // Clear after 3 sec
   } else {
-    setTitle('');
-    setContent('');
-    setTag('');
-    setLanguage('text');
-    await fetchNotes(); // refresh notes
-  }
+  setTitle('');
+  setContent('');
+  setTag('');
+  setLanguage('text');
+  await fetchNotes(); // refresh notes
+  setSuccess('Note saved!');
+  setTimeout(() => setSuccess(''), 3000); // clear message after 3 sec
+}
 
   setSaving(false);
 };
