@@ -1,85 +1,85 @@
-import { useEffect, useState } from "react";
-import { supabase } from "./supabase";
+import { useState, useEffect } from 'react';
 
-export default function App() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tag, setTag] = useState("");
+function App() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [tag, setTag] = useState('');
   const [notes, setNotes] = useState([]);
-  const [loading, setLoading] = useState(false);
 
+  // Load saved notes from localStorage on load
   useEffect(() => {
-    fetchNotes();
+    const storedNotes = JSON.parse(localStorage.getItem('vnx-notes')) || [];
+    setNotes(storedNotes);
   }, []);
 
-  const fetchNotes = async () => {
-    setLoading(true);
-    const { data, error } = await supabase.from("notes").select("*").order("id", { ascending: false });
-    if (error) console.error("Fetch error:", error);
-    else setNotes(data);
-    setLoading(false);
-  };
+  const handleSaveNote = () => {
+    if (!title.trim() || !content.trim()) return;
 
-  const handleSave = async () => {
-    if (!title || !content) return;
-    const { error } = await supabase.from("notes").insert([{ title, content, tag }]);
-    if (error) console.error("Insert error:", error);
-    else {
-      setTitle("");
-      setContent("");
-      setTag("");
-      fetchNotes();
-    }
+    const newNote = { title, content, tag };
+    const updatedNotes = [newNote, ...notes];
+
+    setNotes(updatedNotes);
+    localStorage.setItem('vnx-notes', JSON.stringify(updatedNotes));
+
+    // Clear inputs
+    setTitle('');
+    setContent('');
+    setTag('');
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">🧠 Notebook VNX</h1>
-      <div className="max-w-md mx-auto bg-white rounded p-6 shadow">
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-3xl font-bold text-center mb-6">🧠 Notebook VNX</h1>
+
+      <div className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-md">
         <input
-          className="w-full mb-3 px-3 py-2 border rounded"
+          type="text"
           placeholder="Title"
+          className="w-full border border-gray-300 rounded p-2 mb-3"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <textarea
-          className="w-full mb-3 px-3 py-2 border rounded"
           placeholder="Content"
+          className="w-full border border-gray-300 rounded p-2 mb-3 h-24"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
         <input
-          className="w-full mb-3 px-3 py-2 border rounded"
+          type="text"
           placeholder="Tag (optional)"
+          className="w-full border border-gray-300 rounded p-2 mb-3"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
         />
         <button
-          className={
-            "w-full py-2 rounded text-white " +
-            (title && content ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-300 cursor-not-allowed")
-          }
-          onClick={handleSave}
-          disabled={!title || !content}
+          onClick={handleSaveNote}
+          className="w-full bg-blue-400 text-white py-2 px-4 rounded hover:bg-blue-500 transition"
         >
           Save Note
         </button>
       </div>
 
-      <div className="mt-10 max-w-lg mx-auto">
-        <h3 className="text-xl font-bold mb-4">📝 Your Notes</h3>
-        {notes.map((note) => (
-          <div key={note.id} className="bg-white rounded shadow p-4 mb-3">
-            <h4 className="font-semibold">{note.title}</h4>
-            <p className="text-sm text-gray-700">{note.content}</p>
-            {note.tag && (
-              <span className="inline-block text-xs mt-2 px-2 py-1 bg-gray-200 rounded">
-                #{note.tag}
-              </span>
-            )}
-          </div>
-        ))}
+      <div className="mt-8 max-w-2xl mx-auto">
+        <h2 className="text-xl font-bold mb-4">📝 Your Notes</h2>
+        {notes.length === 0 ? (
+          <p className="text-gray-500">No notes yet.</p>
+        ) : (
+          <ul className="space-y-4">
+            {notes.map((note, index) => (
+              <li key={index} className="bg-white p-4 rounded shadow">
+                <h3 className="text-lg font-semibold">{note.title}</h3>
+                <p className="text-gray-700 mt-1">{note.content}</p>
+                {note.tag && (
+                  <span className="text-sm mt-2 inline-block text-blue-600">#{note.tag}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
 }
+
+export default App;
