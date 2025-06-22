@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './supabase'; // ✅ Make sure this path is correct
+import { supabase } from './supabase'; // ✅ Ensure this is correct
 
 const App = () => {
   const [title, setTitle] = useState('');
@@ -10,8 +10,6 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const [language, setLanguage] = useState('text');
 
-
-  // ✅ Moved fetchNotes outside so it can be reused
   const fetchNotes = async () => {
     const { data, error } = await supabase
       .from('notes')
@@ -33,49 +31,6 @@ const App = () => {
     setSaving(true);
     setError('');
 
-    const { error } = await supabase
-      .from('notes')
-      .insert([{ title, content, tag }]);
-
-    if (error) {
-      setError('Failed to save note.');
-    } else {
-      setTitle('');
-      setContent('');
-      setTag('');
-      await fetchNotes(); // ✅ refresh notes
-    }
-    const App = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tag, setTag] = useState('');
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
-  const [notes, setNotes] = useState([]);
-  const [language, setLanguage] = useState('text');
-
-  // ✅ Reusable fetchNotes function
-  const fetchNotes = async () => {
-    const { data, error } = await supabase
-      .from('notes')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching notes:', error.message);
-    } else {
-      setNotes(data);
-    }
-  };
-
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-
-  // ✅ Place this here:
-  const handleSaveNote = async () => {
-    setSaving(true);
-    setError('');
     const { error } = await supabase
       .from('notes')
       .insert([{ title, content, tag, language }]);
@@ -94,43 +49,42 @@ const App = () => {
   };
 
   return (
-  <div className="min-h-screen bg-gray-100 p-6">
-    <h1 className="text-3xl font-bold text-center mb-6">🧠 Notebook VNX</h1>
-    
-    <div className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-md">
-      <input
-        type="text"
-        placeholder="Title"
-        className="w-full border border-gray-300 rounded p-2 mb-3"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-3xl font-bold text-center mb-6">🧠 Notebook VNX</h1>
+
+      <div className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-md">
+        <input
+          type="text"
+          placeholder="Title"
+          className="w-full border border-gray-300 rounded p-2 mb-3"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
-       <textarea
-        placeholder="Content"
-        className="w-full border border-gray-300 rounded p-2 mb-3 h-24"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+        <textarea
+          placeholder="Content"
+          className="w-full border border-gray-300 rounded p-2 mb-3 h-24"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         />
         <input
-  type="text"
-  placeholder="Tag (optional)"
-  className="w-full border border-gray-300 rounded p-2 mb-3"
-  value={tag}
-  onChange={(e) => setTag(e.target.value)}
-/>
+          type="text"
+          placeholder="Tag (optional)"
+          className="w-full border border-gray-300 rounded p-2 mb-3"
+          value={tag}
+          onChange={(e) => setTag(e.target.value)}
+        />
+        <select
+          className="w-full border border-gray-300 rounded p-2 mb-3"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option value="text">Plain Text</option>
+          <option value="python">Python</option>
+          <option value="javascript">JavaScript</option>
+          <option value="bash">Bash</option>
+          <option value="html">HTML</option>
+        </select>
 
-<select
-  className="w-full border border-gray-300 rounded p-2 mb-3"
-  value={language}
-  onChange={(e) => setLanguage(e.target.value)}
->
-  <option value="text">Plain Text</option>
-  <option value="python">Python</option>
-  <option value="javascript">JavaScript</option>
-  <option value="bash">Bash</option>
-  <option value="html">HTML</option>
-</select>
-      
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
         <button
           onClick={handleSaveNote}
