@@ -128,7 +128,7 @@ const App = () => {
       Language: {note.language}
     </span>
   )}
-</li>
+
 
               </li>
             ))}
