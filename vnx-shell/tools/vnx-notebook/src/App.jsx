@@ -132,9 +132,4 @@ const App = () => {
   ))}
 </ul>
 
-      </div>
-    </div>
-  );
-};
-
 export default App;
