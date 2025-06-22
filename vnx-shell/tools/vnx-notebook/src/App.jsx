@@ -131,9 +131,6 @@ const App = () => {
   <option value="html">HTML</option>
 </select>
 
-
-          value={tag}
-          onChange={(e) => setTag(e.target.value)}
         />
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
         <button
