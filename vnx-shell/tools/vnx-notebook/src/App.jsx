@@ -1,6 +1,8 @@
 // src/App.jsx
-import React, { useEffect, useState } from 'react';
-import { supabase } from ./supabase';
+import React, { useState, useEffect } from 'react';
+import { supabase } from './supabase';
+import './App.css';
+
 
 export default function App() {
   const [title, setTitle] = useState('');
