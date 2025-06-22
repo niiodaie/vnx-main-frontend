@@ -78,21 +78,17 @@ export default function App() {
           Save Note
         </button>
       </div>
-
-      <div className="mt-10 max-w-lg mx-auto">
-        <h3 className="text-xl font-bold mb-4">📝 Your Notes</h3>
-            {notes.map((note) => (
-        <div key={note.id} className="bg-white rounded shadow p-4 mb-3">
-          <h4 className="font-semibold">{note.title}</h4>
-          <p className="text-sm text-gray-700">{note.content}</p>
-          {note.tag && (
-            <span className="inline-block text-xs mt-2 px-2 py-1 bg-gray-200 rounded">
-              #{note.tag}
-            </span>
-          )}
-        </div>
-      ))}
+<div className="mt-10 max-w-lg mx-auto">
+  <h3 className="text-xl font-bold mb-4">📝 Your Notes</h3>
+  {notes.map((note) => (
+    <div key={note.id} className="bg-white rounded shadow p-4 mb-3">
+      <h4 className="font-semibold">{note.title}</h4>
+      <p className="text-sm text-gray-700">{note.content}</p>
+      {note.tag && (
+        <span className="inline-block text-xs mt-2 px-2 py-1 bg-gray-200 rounded">
+          #{note.tag}
+        </span>
+      )}
     </div>
-  </div>
-);
-}
+  ))}
+</div>
