@@ -87,7 +87,12 @@ const App = () => {
           <option value="html">HTML</option>
         </select>
 
-        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+        {error ? (
+  <p className="text-red-500 text-sm mb-2">{error}</p>
+) : success && (
+  <p className="text-green-600 text-sm mb-2">{success}</p>
+)}
+
         <button
           onClick={handleSaveNote}
           className={`w-full text-white py-2 px-4 rounded transition ${
