@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './supabase';
 
-function App() {
+const App = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState('');
-  const [notes, setNotes] = useState([]);
+  const [saving, setSaving] = useState(false);  // <-- THIS LINE
   const [error, setError] = useState('');
+  const [notes, setNotes] = useState([]);
+
+  // rest of your logic...
 
   // 🔁 Fetch notes from Supabase on load
   useEffect(() => {
