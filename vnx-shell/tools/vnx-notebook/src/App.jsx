@@ -28,25 +28,25 @@ const App = () => {
   }, []);
 
   const handleSaveNote = async () => {
-    setSaving(true);
-    setError('');
+  setSaving(true);
 
-    const { error } = await supabase
-      .from('notes')
-      .insert([{ title, content, tag, language }]);
+  const { error } = await supabase
+    .from('notes')
+    .insert([{ title, content, tag, language }]);
 
-    if (error) {
-      setError('Failed to save note.');
-    } else {
-      setTitle('');
-      setContent('');
-      setTag('');
-      setLanguage('text');
-      await fetchNotes(); // refresh list
-    }
+  if (error) {
+    setError('Failed to save note.');
+    setTimeout(() => setError(''), 3000); // Clear after 3 sec
+  } else {
+    setTitle('');
+    setContent('');
+    setTag('');
+    setLanguage('text');
+    await fetchNotes(); // refresh notes
+  }
 
-    setSaving(false);
-  };
+  setSaving(false);
+};
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
