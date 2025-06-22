@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './supabase'; // ✅ make sure this file exists
+import { supabase } from './supabase';
 
 function App() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState('');
   const [notes, setNotes] = useState([]);
+  const [error, setError] = useState('');
 
-  // ✅ Fetch notes from Supabase on load
+  // 🔁 Fetch notes from Supabase on load
   useEffect(() => {
     const fetchNotes = async () => {
       const { data, error } = await supabase
@@ -25,24 +26,27 @@ function App() {
     fetchNotes();
   }, []);
 
-  // ✅ Save note to Supabase
+  // 💾 Save note to Supabase
   const handleSaveNote = async () => {
-    if (!title.trim() || !content.trim()) return;
+    if (!title.trim() || !content.trim()) {
+      setError('Title and content are required.');
+      return;
+    }
 
+    setError('');
     const { data, error } = await supabase
       .from('notes')
       .insert([{ title, content, tag }]);
 
     if (error) {
       console.error('Error saving note:', error.message);
-      return;
+      setError('Failed to save note.');
+    } else {
+      setNotes([data[0], ...notes]);
+      setTitle('');
+      setContent('');
+      setTag('');
     }
-
-    // Prepend new note to UI
-    setNotes([data[0], ...notes]);
-    setTitle('');
-    setContent('');
-    setTag('');
   };
 
   return (
@@ -70,9 +74,15 @@ function App() {
           value={tag}
           onChange={(e) => setTag(e.target.value)}
         />
+        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
         <button
           onClick={handleSaveNote}
-          className="w-full bg-blue-400 text-white py-2 px-4 rounded hover:bg-blue-500 transition"
+          className={`w-full text-white py-2 px-4 rounded transition ${
+            title && content
+              ? 'bg-blue-600 hover:bg-blue-700'
+              : 'bg-blue-300 cursor-not-allowed'
+          }`}
+          disabled={!title || !content}
         >
           Save Note
         </button>
@@ -89,7 +99,9 @@ function App() {
                 <h3 className="text-lg font-semibold">{note.title}</h3>
                 <p className="text-gray-700 mt-1">{note.content}</p>
                 {note.tag && (
-                  <span className="text-sm mt-2 inline-block text-blue-600">#{note.tag}</span>
+                  <span className="text-sm mt-2 inline-block text-blue-600">
+                    #{note.tag}
+                  </span>
                 )}
               </li>
             ))}
