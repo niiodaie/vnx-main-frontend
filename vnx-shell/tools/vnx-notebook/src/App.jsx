@@ -134,6 +134,9 @@ const App = () => {
       </ul>
     )}
   </div>
-);
+    </ul>
+  </div>  // <- closes main .mt-8 container
+);        // <- closes return
+};
 
 export default App;
