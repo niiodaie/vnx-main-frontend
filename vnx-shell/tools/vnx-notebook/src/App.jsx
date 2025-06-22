@@ -21,19 +21,25 @@ export default function App() {
   };
 
   const handleSave = async () => {
-    if (!title.trim() || !content.trim()) {
-      setError('Title and content are required.');
-      return;
-    }
+  if (!title.trim() || !content.trim()) {
+    setError('Title and content are required.');
+    return;
+  }
 
-    setError('');
-    const { data, error } = await supabase.from('notes').insert([{ title, content, tag }]);
-    if (!error) {
-      setTitle('');
-      setContent('');
-      setTag('');
-      fetchNotes();
-    }
+  setError('');
+  const { data, error } = await supabase.from('notes').insert([{ title, content, tag }]);
+
+  if (error) {
+    console.error("❌ Supabase Insert Error:", error.message);
+    setError("Failed to save note: " + error.message);
+    return;
+  }
+
+  setTitle('');
+  setContent('');
+  setTag('');
+  fetchNotes();
+};
   };
 
   return (
