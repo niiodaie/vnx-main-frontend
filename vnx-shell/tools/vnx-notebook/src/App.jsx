@@ -26,27 +26,28 @@ function App() {
     fetchNotes();
   }, []);
 
-  // 💾 Save note to Supabase
-  const handleSaveNote = async () => {
-    if (!title.trim() || !content.trim()) {
-      setError('Title and content are required.');
-      return;
-    }
+ const handleSaveNote = async () => {
+  if (!title.trim() || !content.trim()) {
+    setError('Title and content are required.');
+    return;
+  }
 
-    setError('');
-    const { data, error } = await supabase
-      .from('notes')
-      .insert([{ title, content, tag }]);
+  setError('');
+  const { data, error } = await supabase
+    .from('notes')
+    .insert([{ title, content, tag }]);
 
-    if (error) {
-      console.error('Error saving note:', error.message);
-      setError('Failed to save note.');
-    } else {
-      setNotes([data[0], ...notes]);
-      setTitle('');
-      setContent('');
-      setTag('');
-    }
+  console.log('📤 Insert result:', { data, error }); // ← ADD THIS
+
+  if (error) {
+    console.error('Error saving note:', error.message);
+    setError('Failed to save note.');
+  } else {
+    setNotes([data[0], ...notes]);
+    setTitle('');
+    setContent('');
+    setTag('');
+  }
   };
 
   return (
