@@ -130,8 +130,7 @@ const App = () => {
   <option value="bash">Bash</option>
   <option value="html">HTML</option>
 </select>
-
-        />
+      
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
         <button
           onClick={handleSaveNote}
