@@ -1,19 +1,18 @@
+import { useState } from 'react';
 
-import React, { useState } from 'react';
-import logo from './assets/logo.png';
-
-const App = () => {
+export default function NotebookVNX() {
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState('');
 
-  const addNote = () => {
+  const handleSave = () => {
+    if (!title || !content) return;
     const newNote = {
       title,
       content,
-      tag: `#${tag}`,
-      date: new Date().toLocaleDateString(),
+      tag,
+      createdAt: new Date().toISOString()
     };
     setNotes([newNote, ...notes]);
     setTitle('');
@@ -22,36 +21,64 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
-      <header className="bg-white shadow px-4 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 px-4 py-6">
+      {/* Header */}
+      <header className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold">Notebook VNX</h1>
-          <p className="text-sm text-gray-500">Smart notes powered by Visnec Nexus</p>
+          <h1 className="text-2xl font-bold text-slate-800">📓 Notebook VNX</h1>
+          <p className="text-sm text-slate-500">Smart notes powered by Visnec Nexus</p>
         </div>
-        <img src={logo} alt="Logo" className="h-10 w-auto" />
+        <div className="flex gap-2 items-center">
+          <span className="text-xs text-slate-500">Cloud Sync</span>
+          <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
+        </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-6 space-y-6">
-        <div className="bg-white p-4 rounded shadow space-y-4">
-          <h2 className="font-semibold text-lg">+ New Note</h2>
-          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Title" className="w-full p-2 border rounded" />
-          <textarea value={content} onChange={e => setContent(e.target.value)} placeholder="Write your note here..." className="w-full p-2 border rounded"></textarea>
-          <input value={tag} onChange={e => setTag(e.target.value)} placeholder="Tag (e.g., ai, health, etc.)" className="w-full p-2 border rounded" />
-          <button onClick={addNote} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">Save Note</button>
-        </div>
+      {/* Note Input */}
+      <div className="bg-white rounded-xl shadow-md p-6 max-w-xl mx-auto mb-10">
+        <h2 className="text-lg font-semibold mb-4">+ New Note</h2>
+        <input
+          className="w-full p-2 mb-3 rounded border border-slate-300 focus:outline-none"
+          placeholder="Title"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
+        <textarea
+          className="w-full p-2 mb-3 rounded border border-slate-300 h-24 focus:outline-none"
+          placeholder="Write your note here..."
+          value={content}
+          onChange={e => setContent(e.target.value)}
+        />
+        <input
+          className="w-full p-2 mb-3 rounded border border-slate-300 focus:outline-none"
+          placeholder="Tag (e.g., ai, learning)"
+          value={tag}
+          onChange={e => setTag(e.target.value)}
+        />
+        <button
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          onClick={handleSave}
+        >
+          Save Note
+        </button>
+      </div>
 
+      {/* Notes Display */}
+      <div className="grid gap-4 max-w-4xl mx-auto">
+        {notes.length === 0 && (
+          <div className="text-center text-slate-500 italic">No notes yet. Start writing!</div>
+        )}
         {notes.map((note, idx) => (
-          <div key={idx} className="bg-white p-4 rounded-lg shadow">
-            <h2 className="text-lg font-semibold">{note.title}</h2>
-            <p className="text-sm mt-1">{note.content}</p>
-            <p className="text-xs text-gray-500 mt-2">{note.tag} | {note.date}</p>
+          <div key={idx} className="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
+            <h3 className="font-semibold text-slate-800">{note.title}</h3>
+            <p className="text-slate-600 mb-2">{note.content}</p>
+            <div className="text-xs text-slate-400 flex justify-between">
+              <span>#{note.tag}</span>
+              <span>{new Date(note.createdAt).toLocaleDateString()}</span>
+            </div>
           </div>
         ))}
-
-        <footer className="text-center text-xs text-gray-400 mt-10">Powered by Visnec Nexus | Notebook VNX v1.0.0</footer>
-      </main>
+      </div>
     </div>
   );
-};
-
-export default App;
+}
