@@ -87,7 +87,7 @@ export default function App() {
             <p className="text-sm text-gray-700">{note.content}</p>
             {note.tag && <span className="inline-block text-xs mt-2 px-2 py-1 bg-gray-200 rounded">#{note.tag}</span>}
           </div>
-        ))}
+               ))}
       </div>
     </div>
   );
