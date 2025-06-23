@@ -21,7 +21,10 @@ const App = () => {
   };
 
   const handleSaveNote = async () => {
-    if (!title || !content) return;
+    if (!title || !content) {
+      alert("Title and content are required.");
+      return;
+    }
 
     const noteData = {
       title,
@@ -30,26 +33,31 @@ const App = () => {
       language,
     };
 
-    if (editingNoteId) {
-      await fetch(`https://vnx-main-backend.onrender.com/notes/${editingNoteId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(noteData),
-      });
-      setEditingNoteId(null);
-    } else {
-      await fetch('https://vnx-main-backend.onrender.com/notes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(noteData),
-      });
-    }
+    try {
+      if (editingNoteId) {
+        await fetch(`https://vnx-main-backend.onrender.com/notes/${editingNoteId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(noteData),
+        });
+        setEditingNoteId(null);
+      } else {
+        await fetch('https://vnx-main-backend.onrender.com/notes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(noteData),
+        });
+      }
 
-    setTitle('');
-    setContent('');
-    setTag('');
-    setLanguage('text');
-    fetchNotes();
+      setTitle('');
+      setContent('');
+      setTag('');
+      setLanguage('text');
+      fetchNotes();
+    } catch (error) {
+      console.error("Error saving note:", error);
+      alert("Failed to save note. Check console for details.");
+    }
   };
 
   const handleDelete = async (id) => {
@@ -142,7 +150,7 @@ const App = () => {
           {filteredNotes.map((note, index) => (
             <li key={index} className="bg-white p-4 rounded shadow relative">
               <h3 className="text-lg font-semibold">{note.title}</h3>
-              <p className="text-gray-700 mt-1">{note.content}</p>
+              <p className="text-gray-700 mt-1 whitespace-pre-line">{note.content}</p>
               {note.tag && (
                 <span className="text-sm mt-2 inline-block text-blue-600">#{note.tag}</span>
               )}
