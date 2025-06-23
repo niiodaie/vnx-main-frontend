@@ -1,1 +1,13 @@
-
+{
+  "title": "🧠 Notebook VNX",
+  "inputTitle": "Title",
+  "inputContent": "Content",
+  "inputTag": "Tag (optional)",
+  "selectLanguage": "Language",
+  "saveNote": "Save Note",
+  "updateNote": "Update Note",
+  "filterByTag": "🔖 Filter by Tag",
+  "yourNotes": "📚 Your Notes",
+  "all": "All",
+  "language": "Language"
+}
