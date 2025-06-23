@@ -1,1 +1,4 @@
-// App.css - placeholder content
+/* App.css - additional styling if needed */
+textarea {
+  resize: vertical;
+}
