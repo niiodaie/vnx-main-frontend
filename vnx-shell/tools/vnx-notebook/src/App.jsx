@@ -15,9 +15,13 @@ const App = () => {
   }, []);
 
   const fetchNotes = async () => {
-    const response = await fetch('https://vnx-main-backend.onrender.com/notes');
-    const data = await response.json();
-    setNotes(data);
+    try {
+      const response = await fetch('https://vnx-main-backend.onrender.com/notes');
+      const data = await response.json();
+      setNotes(data);
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+    }
   };
 
   const handleSaveNote = async () => {
@@ -26,88 +30,84 @@ const App = () => {
       return;
     }
 
-    const noteData = {
-      title,
-      content,
-      tag,
-      language,
-    };
+    const noteData = { title, content, tag, language };
 
     try {
-      if (editingNoteId) {
-        await fetch(`https://vnx-main-backend.onrender.com/notes/${editingNoteId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(noteData),
-        });
-        setEditingNoteId(null);
-      } else {
-        await fetch('https://vnx-main-backend.onrender.com/notes', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(noteData),
-        });
-      }
+      const url = editingNoteId
+        ? `https://vnx-main-backend.onrender.com/notes/${editingNoteId}`
+        : `https://vnx-main-backend.onrender.com/notes`;
+
+      const method = editingNoteId ? 'PUT' : 'POST';
+
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(noteData),
+      });
 
       setTitle('');
       setContent('');
       setTag('');
       setLanguage('text');
+      setEditingNoteId(null);
       fetchNotes();
     } catch (error) {
       console.error("Error saving note:", error);
-      alert("Failed to save note. Check console for details.");
+      alert("Failed to save note.");
     }
   };
 
   const handleDelete = async (id) => {
-    await fetch(`https://vnx-main-backend.onrender.com/notes/${id}`, {
-      method: 'DELETE',
-    });
-    fetchNotes();
+    try {
+      await fetch(`https://vnx-main-backend.onrender.com/notes/${id}`, {
+        method: 'DELETE',
+      });
+      fetchNotes();
+    } catch (error) {
+      console.error("Error deleting note:", error);
+    }
   };
 
   const handleEdit = (note) => {
     setTitle(note.title);
     setContent(note.content);
-    setTag(note.tag);
-    setLanguage(note.language);
+    setTag(note.tag || '');
+    setLanguage(note.language || 'text');
     setEditingNoteId(note._id);
   };
 
-  const uniqueTags = [...new Set(notes.map(note => note.tag).filter(Boolean))];
-  const filteredNotes = selectedTag ? notes.filter(note => note.tag === selectedTag) : notes;
+  const uniqueTags = [...new Set(notes.map(n => n.tag).filter(Boolean))];
+  const filteredNotes = selectedTag ? notes.filter(n => n.tag === selectedTag) : notes;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow">
-        <h1 className="text-2xl font-bold mb-4 flex items-center">
-          <span className="mr-2">🧠</span> Notebook VNX
-        </h1>
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
+        <h1 className="text-2xl font-bold mb-4 text-center">🧠 Notebook VNX</h1>
+
         <input
           type="text"
           placeholder="Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={e => setTitle(e.target.value)}
           className="w-full mb-2 p-2 border rounded"
         />
         <textarea
           placeholder="Content"
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={e => setContent(e.target.value)}
           className="w-full mb-2 p-2 border rounded h-24"
         />
         <input
           type="text"
           placeholder="Tag (optional)"
           value={tag}
-          onChange={(e) => setTag(e.target.value)}
+          onChange={e => setTag(e.target.value)}
           className="w-full mb-2 p-2 border rounded"
         />
         <select
           value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-          className="w-full mb-2 p-2 border rounded"
+          onChange={e => setLanguage(e.target.value)}
+          className="w-full mb-4 p-2 border rounded"
         >
           <option value="text">Plain Text</option>
           <option value="javascript">JavaScript</option>
@@ -115,51 +115,49 @@ const App = () => {
           <option value="html">HTML</option>
           <option value="css">CSS</option>
         </select>
+
         <button
           onClick={handleSaveNote}
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
         >
           {editingNoteId ? 'Update Note' : 'Save Note'}
         </button>
       </div>
 
-      <div className="max-w-xl mx-auto mt-6">
-        <h2 className="text-xl font-semibold mb-2 flex items-center">
-          <span className="mr-2">🗒️</span> Your Notes
-        </h2>
-
-        <div className="mb-4 flex flex-wrap gap-2">
+      <div className="max-w-2xl mx-auto mt-8">
+        <h2 className="text-xl font-semibold mb-3">🗂️ Filter by Tag</h2>
+        <div className="flex flex-wrap gap-2 mb-6">
           <button
             onClick={() => setSelectedTag(null)}
-            className={`px-3 py-1 rounded ${selectedTag === null ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+            className={`px-3 py-1 rounded ${selectedTag === null ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
           >
-            All Notes
+            All
           </button>
-          {uniqueTags.map(tag => (
+          {uniqueTags.map((t) => (
             <button
-              key={tag}
-              onClick={() => setSelectedTag(tag)}
-              className={`px-3 py-1 rounded ${selectedTag === tag ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+              key={t}
+              onClick={() => setSelectedTag(t)}
+              className={`px-3 py-1 rounded ${selectedTag === t ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
             >
-              #{tag}
+              #{t}
             </button>
           ))}
         </div>
 
         <ul className="space-y-4">
-          {filteredNotes.map((note, index) => (
-            <li key={index} className="bg-white p-4 rounded shadow relative">
-              <h3 className="text-lg font-semibold">{note.title}</h3>
-              <p className="text-gray-700 mt-1 whitespace-pre-line">{note.content}</p>
+          {filteredNotes.map((note) => (
+            <li key={note._id} className="bg-white p-4 rounded shadow relative">
+              <h3 className="font-bold text-lg">{note.title}</h3>
+              <p className="whitespace-pre-wrap text-gray-700 mt-1">{note.content}</p>
               {note.tag && (
-                <span className="text-sm mt-2 inline-block text-blue-600">#{note.tag}</span>
+                <span className="text-sm inline-block mt-2 text-blue-600">#{note.tag}</span>
               )}
               {note.language && (
-                <span className="text-sm mt-1 block text-purple-600 italic">Language: {note.language}</span>
+                <span className="text-sm block text-purple-600 italic">Language: {note.language}</span>
               )}
-              <div className="absolute top-2 right-2 space-x-2">
+              <div className="absolute top-2 right-2 flex gap-2">
                 <button onClick={() => handleEdit(note)} className="text-orange-500">✏️</button>
-                <button onClick={() => handleDelete(note._id)} className="text-pink-600">❌</button>
+                <button onClick={() => handleDelete(note._id)} className="text-red-600">🗑️</button>
               </div>
             </li>
           ))}
