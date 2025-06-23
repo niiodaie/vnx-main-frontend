@@ -132,12 +132,8 @@ const App = () => {
         )}
       </li>
              ))}
-        </ul>
-      );
-    }
-
-export default App;
-
+      </ul>
+}
 
 
 
