@@ -17,31 +17,39 @@ const App = () => {
 
   const fetchNotes = async () => {
     try {
-      setNotes(
-        await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes').then(res =>
-          res.json()
-        )
-      );
+      const res = await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes');
+      const data = await res.json();
+      setNotes(data);
     } catch (error) {
       console.error("Error fetching notes:", error);
-      toast.error("Failed to fetch notes.");
+      toast.warning("Failed to load notes.");
     }
   };
 
   const handleSaveNote = async () => {
     if (!title || !content) {
-      toast.warn("Title and content are required.");
+      toast.warn("Please enter a title and content.");
       return;
     }
 
     const noteData = { title, content, tag, language };
 
     try {
-      await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(noteData),
-      });
+      if (editingNoteId) {
+        await fetch(`https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes/${editingNoteId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(noteData),
+        });
+        toast.info("Note updated!");
+      } else {
+        await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(noteData),
+        });
+        toast.success("Note saved!");
+      }
 
       setTitle('');
       setContent('');
@@ -49,7 +57,6 @@ const App = () => {
       setLanguage('text');
       setEditingNoteId(null);
       fetchNotes();
-      toast.success("Note saved!");
     } catch (error) {
       console.error("Error saving note:", error);
       toast.error("Failed to save note.");
@@ -67,13 +74,13 @@ const App = () => {
   const handleDelete = async (id) => {
     try {
       await fetch(`https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes/${id}`, {
-        method: 'DELETE',
+        method: 'DELETE'
       });
+      toast.error("Note deleted!");
       fetchNotes();
-      toast.success("Note deleted!");
-    } catch (error) {
-      console.error("Error deleting note:", error);
-      toast.error("Failed to delete note.");
+    } catch (err) {
+      console.error("Error deleting note:", err);
+      toast.warning("Failed to delete note.");
     }
   };
 
@@ -166,8 +173,16 @@ const App = () => {
         </ul>
       </div>
 
-      {/* ✅ Toast notification anchor */}
-      <ToastContainer position="top-center" autoClose={3000} />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+      />
     </div>
   );
 };
