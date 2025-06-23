@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
@@ -32,13 +31,14 @@ const App = () => {
     }
 
     const noteData = { title, content, tag, language };
-    const url = editingNoteId
-      ? `https://vnx-main-backend.onrender.com/notes/${editingNoteId}`
-      : `https://vnx-main-backend.onrender.com/notes`;
-
-    const method = editingNoteId ? 'PUT' : 'POST';
 
     try {
+      const url = editingNoteId
+        ? `https://vnx-main-backend.onrender.com/notes/${editingNoteId}`
+        : `https://vnx-main-backend.onrender.com/notes`;
+
+      const method = editingNoteId ? 'PUT' : 'POST';
+
       await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -53,6 +53,7 @@ const App = () => {
       fetchNotes();
     } catch (error) {
       console.error("Error saving note:", error);
+      alert("Failed to save note.");
     }
   };
 
@@ -80,7 +81,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
+      <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow">
         <h1 className="text-2xl font-bold mb-4 text-center">🧠 Notebook VNX</h1>
 
         <input
@@ -123,8 +124,8 @@ const App = () => {
         </button>
       </div>
 
-      <div className="max-w-2xl mx-auto mt-8">
-        <h2 className="text-xl font-semibold mb-3">🗂️ Filter by Tag</h2>
+      <div className="max-w-xl mx-auto mt-8">
+        <h2 className="text-xl font-semibold mb-3">🔖 Filter by Tag</h2>
         <div className="flex flex-wrap gap-2 mb-6">
           <button
             onClick={() => setSelectedTag(null)}
@@ -143,6 +144,7 @@ const App = () => {
           ))}
         </div>
 
+        <h2 className="text-xl font-semibold mb-3">📚 Your Notes</h2>
         <ul className="space-y-4">
           {filteredNotes.map((note) => (
             <li key={note._id} className="bg-white p-4 rounded shadow relative">
