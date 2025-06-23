@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
+  const { t, i18n } = useTranslation();
+
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -10,6 +13,7 @@ const App = () => {
   const [language, setLanguage] = useState('text');
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [selectedTag, setSelectedTag] = useState(null);
+
 
   useEffect(() => {
     fetchNotes();
