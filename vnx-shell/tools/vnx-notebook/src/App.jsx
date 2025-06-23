@@ -114,6 +114,7 @@ const App = () => {
     ) : (
       <ul className="space-y-4">
   {<ul>
+  <ul>
   {notes.map((note, index) => (
     <li key={index} className="bg-white p-4 rounded shadow">
       <h3 className="text-lg font-semibold">{note.title}</h3>
@@ -126,14 +127,14 @@ const App = () => {
       )}
 
       {note.language && (
-  <span className="text-sm mt-1 block text-purple-600 italic">
-    Language: {note.language}
+        <span className="text-sm mt-1 block text-purple-600 italic">
+          Language: {note.language}
         </span>
-        )}
-      </li>
-             ))}
-     </ul>
-}
+      )}
+    </li>
+  ))}
+</ul>
+
 export default App;
 
 
