@@ -23,26 +23,30 @@ setNotes(await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/n
     }
   };
 
-  const handleSaveNote = async () => {
-    if (!title || !content) {
-      alert("Title and content are required.");
-      return;
-    }
+ const handleSaveNote = async () => {
+  if (!title || !content) return alert("Title and content are required.");
 
-    const noteData = { title, content, tag, language };
+  const noteData = { title, content, tag, language };
 
-    try {
-      const url = editingNoteId
-        ? `https://vnx-main-backend.onrender.com/notes/${editingNoteId}`
-        : `https://vnx-main-backend.onrender.com/notes`;
+  try {
+    await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(noteData),
+    });
 
-      const method = editingNoteId ? 'PUT' : 'POST';
+    setTitle('');
+    setContent('');
+    setTag('');
+    setLanguage('text');
+    setEditingNoteId(null);
+    fetchNotes();
+  } catch (error) {
+    console.error("Error saving note:", error);
+    alert("Failed to save note.");
+  }
+};
 
-      await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(noteData),
-      });
 
       setTitle('');
       setContent('');
