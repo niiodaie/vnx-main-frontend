@@ -47,19 +47,6 @@ setNotes(await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/n
   }
 };
 
-
-      setTitle('');
-      setContent('');
-      setTag('');
-      setLanguage('text');
-      setEditingNoteId(null);
-      fetchNotes();
-    } catch (error) {
-      console.error("Error saving note:", error);
-      alert("Failed to save note.");
-    }
-  };
-
   const handleDelete = async (id) => {
     try {
       await fetch(`https://vnx-main-backend.onrender.com/notes/${id}`, {
