@@ -126,13 +126,14 @@ const App = () => {
       )}
 
       {note.language && (
-        <span className="text-sm mt-1 block text-purple-600 italic">
-          Language: {note.language}
-        </span>
-      )}
-    </li>
-       ))}
-    </ul>
+  <span className="text-sm mt-1 block text-purple-600 italic">
+    Language: {note.language}
+  </span>
+)}
+</li>
+))}
+</ul>
+
   );
 }
 
