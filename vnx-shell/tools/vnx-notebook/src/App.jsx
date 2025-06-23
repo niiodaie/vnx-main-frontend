@@ -1,138 +1,118 @@
-import { useState, useEffect } from 'react';
-import { supabase } from './supabase';
+import React, { useState } from "react";
+import "./App.css";
 
-const App = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tag, setTag] = useState('');
-  const [language, setLanguage] = useState('text');
+function App() {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [tag, setTag] = useState("");
+  const [language, setLanguage] = useState("text");
   const [notes, setNotes] = useState([]);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
-  const fetchNotes = async () => {
-    const { data, error } = await supabase
-      .from('notes')
-      .select('*')
-      .order('created_at', { ascending: false });
+  const handleSave = () => {
+    if (!title || !content) return;
 
-    if (error) {
-      console.error('Error fetching notes:', error.message);
-    } else {
-      setNotes(data);
-    }
+    const newNote = {
+      title,
+      content,
+      tag,
+      language,
+    };
+
+    setNotes([newNote, ...notes]);
+    setTitle("");
+    setContent("");
+    setTag("");
+    setLanguage("text");
   };
 
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-
-  const handleSaveNote = async () => {
-    setSaving(true);
-
-    const { error } = await supabase
-      .from('notes')
-      .insert([{ title, content, tag, language }]);
-
-    if (error) {
-      setError('Failed to save note.');
-      setTimeout(() => setError(''), 3000);
-    } else {
-      setTitle('');
-      setContent('');
-      setTag('');
-      setLanguage('text');
-      setSuccess('Note saved!');
-      setTimeout(() => setSuccess(''), 3000);
-      await fetchNotes();
-    }
-
-    setSaving(false);
+  const handleDelete = (indexToDelete) => {
+    const updatedNotes = notes.filter((_, index) => index !== indexToDelete);
+    setNotes(updatedNotes);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">🧠 Notebook VNX</h1>
+      <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
+        <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span role="img" aria-label="brain">
+            🧠
+          </span>
+          Notebook VNX
+        </h1>
 
-      <div className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-md">
         <input
-          type="text"
+          className="w-full border p-2 mb-2"
           placeholder="Title"
-          className="w-full border border-gray-300 rounded p-2 mb-3"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <textarea
+          className="w-full border p-2 mb-2"
           placeholder="Content"
-          className="w-full border border-gray-300 rounded p-2 mb-3 h-24"
+          rows={4}
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
         <input
-          type="text"
+          className="w-full border p-2 mb-2"
           placeholder="Tag (optional)"
-          className="w-full border border-gray-300 rounded p-2 mb-3"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
         />
         <select
-          className="w-full border border-gray-300 rounded p-2 mb-3"
+          className="w-full border p-2 mb-4"
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
         >
           <option value="text">Plain Text</option>
-          <option value="python">Python</option>
-          <option value="javascript">JavaScript</option>
-          <option value="bash">Bash</option>
-          <option value="html">HTML</option>
+          <option value="markdown">Markdown</option>
+          <option value="code">Code</option>
         </select>
 
-        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-        {success && <p className="text-green-600 text-sm mb-2">{success}</p>}
-
         <button
-          onClick={handleSaveNote}
-          className={`w-full text-white py-2 px-4 rounded transition ${
-            title && content
-              ? 'bg-blue-600 hover:bg-blue-700'
-              : 'bg-blue-300 cursor-not-allowed'
-          }`}
-          disabled={!title || !content || saving}
+          onClick={handleSave}
+          className="w-full bg-blue-400 hover:bg-blue-500 text-white p-2 rounded"
         >
-          {saving ? 'Saving...' : 'Save Note'}
+          Save Note
         </button>
       </div>
 
-      <div className="mt-8 max-w-2xl mx-auto">
-        <h2 className="text-xl font-bold mb-4">📝 Your Notes</h2>
-        {notes.length === 0 ? (
-          <p className="text-gray-500">No notes yet.</p>
-        ) : (
-          <ul className="space-y-4">
-            {notes.map((note, index) => (
-              <li key={index} className="bg-white p-4 rounded shadow">
-                <h3 className="text-lg font-semibold">{note.title}</h3>
-                <p className="text-gray-700 mt-1">{note.content}</p>
+      <div className="max-w-xl mx-auto mt-10">
+        <h2 className="text-xl font-semibold mb-4">📑 Your Notes</h2>
+        <ul className="space-y-4">
+          {notes.map((note, index) => (
+            <li
+              key={index}
+              className="bg-white p-4 rounded shadow relative"
+            >
+              <button
+                className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-lg"
+                onClick={() => handleDelete(index)}
+                title="Delete"
+              >
+                ✖
+              </button>
 
-                {note.tag && (
-                  <span className="text-sm mt-2 inline-block text-blue-600">
-                    #{note.tag}
-                  </span>
-                )}
+              <h3 className="text-lg font-semibold">{note.title}</h3>
+              <p className="text-gray-700 mt-1">{note.content}</p>
 
-                {note.language && (
-                  <span className="text-sm mt-1 block text-purple-600 italic">
-                    Language: {note.language}
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
+              {note.tag && (
+                <span className="text-sm mt-2 inline-block text-blue-600">
+                  #{note.tag}
+                </span>
+              )}
+
+              {note.language && (
+                <span className="text-sm mt-1 block text-purple-600 italic">
+                  Language: {note.language}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
-};
+}
 
 export default App;
