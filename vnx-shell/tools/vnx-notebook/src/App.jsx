@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { ToastContainer, toast } from 'react-toastify';
+<ToastContainer position="top-center" autoClose={3000} />
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -138,6 +142,7 @@ setNotes(await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/n
               <div className="absolute top-2 right-2 flex gap-2">
                 <button onClick={() => handleEdit(note)} className="text-orange-500">✏️</button>
                 <button onClick={() => handleDelete(note._id)} className="text-red-600">🗑️</button>
+                <ToastContainer position="top-center" autoClose={3000} />
               </div>
             </li>
           ))}
