@@ -87,6 +87,21 @@ const App = () => {
   const filteredNotes = selectedTag
     ? notes.filter((note) => note.tag === selectedTag)
     : notes;
+<div className="flex justify-end mb-4">
+  <select
+    onChange={(e) => i18n.changeLanguage(e.target.value)}
+    defaultValue={i18n.language}
+    className="p-1 border rounded"
+  >
+    <option value="en">🇬🇧 English</option>
+    <option value="fr">🇫🇷 French</option>
+    <option value="es">🇪🇸 Spanish</option>
+    <option value="de">🇩🇪 German</option>
+    <option value="zh">🇨🇳 Chinese</option>
+  </select>
+</div>
+
+<h1 className="text-2xl font-bold mb-4 text-center">🧠 Notebook VNX</h1>
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
