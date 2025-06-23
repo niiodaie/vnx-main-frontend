@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './supabase'; // ✅ Ensure this is correct
+import { supabase } from './supabase';
 
 const App = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState('');
+  const [language, setLanguage] = useState('text');
+  const [notes, setNotes] = useState([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
-  const [notes, setNotes] = useState([]);
-  const [language, setLanguage] = useState('text');
+  const [success, setSuccess] = useState('');
 
   const fetchNotes = async () => {
     const { data, error } = await supabase
@@ -28,27 +29,27 @@ const App = () => {
   }, []);
 
   const handleSaveNote = async () => {
-  setSaving(true);
+    setSaving(true);
 
-  const { error } = await supabase
-    .from('notes')
-    .insert([{ title, content, tag, language }]);
+    const { error } = await supabase
+      .from('notes')
+      .insert([{ title, content, tag, language }]);
 
-  if (error) {
-    setError('Failed to save note.');
-    setTimeout(() => setError(''), 3000); // Clear after 3 sec
-  } else {
-  setTitle('');
-  setContent('');
-  setTag('');
-  setLanguage('text');
-  await fetchNotes(); // refresh notes
-  setSuccess('Note saved!');
-  setTimeout(() => setSuccess(''), 3000); // clear message after 3 sec
-}
+    if (error) {
+      setError('Failed to save note.');
+      setTimeout(() => setError(''), 3000);
+    } else {
+      setTitle('');
+      setContent('');
+      setTag('');
+      setLanguage('text');
+      setSuccess('Note saved!');
+      setTimeout(() => setSuccess(''), 3000);
+      await fetchNotes();
+    }
 
-  setSaving(false);
-};
+    setSaving(false);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -87,11 +88,8 @@ const App = () => {
           <option value="html">HTML</option>
         </select>
 
-        {error ? (
-  <p className="text-red-500 text-sm mb-2">{error}</p>
-) : success && (
-  <p className="text-green-600 text-sm mb-2">{success}</p>
-)}
+        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+        {success && <p className="text-green-600 text-sm mb-2">{success}</p>}
 
         <button
           onClick={handleSaveNote}
@@ -106,36 +104,35 @@ const App = () => {
         </button>
       </div>
 
-   return (
-  <div className="mt-8 max-w-2xl mx-auto">
-    <h2 className="text-xl font-bold mb-4">📝 Your Notes</h2>
-    {notes.length === 0 ? (
-      <p className="text-gray-500">No notes yet.</p>
-    ) : (
-      <ul className="space-y-4">
-  {notes.map((note, index) => (
-    <li key={index} className="bg-white p-4 rounded shadow">
-      <h3 className="text-lg font-semibold">{note.title}</h3>
-      <p className="text-gray-700 mt-1">{note.content}</p>
+      <div className="mt-8 max-w-2xl mx-auto">
+        <h2 className="text-xl font-bold mb-4">📝 Your Notes</h2>
+        {notes.length === 0 ? (
+          <p className="text-gray-500">No notes yet.</p>
+        ) : (
+          <ul className="space-y-4">
+            {notes.map((note, index) => (
+              <li key={index} className="bg-white p-4 rounded shadow">
+                <h3 className="text-lg font-semibold">{note.title}</h3>
+                <p className="text-gray-700 mt-1">{note.content}</p>
 
-      {note.tag && (
-        <span className="text-sm mt-2 inline-block text-blue-600">
-          #{note.tag}
-        </span>
-      )}
+                {note.tag && (
+                  <span className="text-sm mt-2 inline-block text-blue-600">
+                    #{note.tag}
+                  </span>
+                )}
 
-      {note.language && (
-        <span className="text-sm mt-1 block text-purple-600 italic">
-          Language: {note.language}
-        </span>
-      )}
-    </li>
-  ))}
-</ul>
+                {note.language && (
+                  <span className="text-sm mt-1 block text-purple-600 italic">
+                    Language: {note.language}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default App;
-
-
-
-
-
