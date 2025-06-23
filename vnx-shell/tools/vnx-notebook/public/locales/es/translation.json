@@ -1,1 +1,13 @@
-
+{
+  "title": "🧠 Carnet VNX",
+  "inputTitle": "Titre",
+  "inputContent": "Contenu",
+  "inputTag": "Étiquette (optionnelle)",
+  "selectLanguage": "Langue",
+  "saveNote": "Enregistrer la note",
+  "updateNote": "Mettre à jour la note",
+  "filterByTag": "🔖 Filtrer par étiquette",
+  "yourNotes": "📚 Vos notes",
+  "all": "Toutes",
+  "language": "Langue"
+}
