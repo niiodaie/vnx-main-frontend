@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
-<ToastContainer position="top-center" autoClose={3000} />
 import 'react-toastify/dist/ReactToastify.css';
-
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -20,43 +18,64 @@ const App = () => {
 
   const fetchNotes = async () => {
     try {
-setNotes(await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes').then(res => res.json()));
-
+      setNotes(
+        await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes').then(res =>
+          res.json()
+        )
+      );
     } catch (error) {
       console.error("Error fetching notes:", error);
+      toast.error("Failed to fetch notes.");
     }
   };
 
- const handleSaveNote = async () => {
-  if (!title || !content) return alert("Title and content are required.");
+  const handleSaveNote = async () => {
+    if (!title || !content) {
+      toast.warn("Title and content are required.");
+      return;
+    }
 
-  const noteData = { title, content, tag, language };
+    const noteData = { title, content, tag, language };
 
-  try {
-    await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(noteData),
-    });
+    try {
+      await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(noteData),
+      });
 
-    setTitle('');
-    setContent('');
-    setTag('');
-    setLanguage('text');
-    setEditingNoteId(null);
-    fetchNotes();
-  } catch (error) {
-    console.error("Error saving note:", error);
-    alert("Failed to save note.");
-  }
-};
-  
+      setTitle('');
+      setContent('');
+      setTag('');
+      setLanguage('text');
+      setEditingNoteId(null);
+      fetchNotes();
+      toast.success("Note saved!");
+    } catch (error) {
+      console.error("Error saving note:", error);
+      toast.error("Failed to save note.");
+    }
+  };
+
   const handleEdit = (note) => {
     setTitle(note.title);
     setContent(note.content);
     setTag(note.tag || '');
     setLanguage(note.language || 'text');
     setEditingNoteId(note._id);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes/${id}`, {
+        method: 'DELETE',
+      });
+      fetchNotes();
+      toast.success("Note deleted!");
+    } catch (error) {
+      console.error("Error deleting note:", error);
+      toast.error("Failed to delete note.");
+    }
   };
 
   const uniqueTags = [...new Set(notes.map(n => n.tag).filter(Boolean))];
@@ -142,12 +161,14 @@ setNotes(await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/n
               <div className="absolute top-2 right-2 flex gap-2">
                 <button onClick={() => handleEdit(note)} className="text-orange-500">✏️</button>
                 <button onClick={() => handleDelete(note._id)} className="text-red-600">🗑️</button>
-                <ToastContainer position="top-center" autoClose={3000} />
               </div>
             </li>
           ))}
         </ul>
       </div>
+
+      {/* ✅ Toast notification anchor */}
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };
