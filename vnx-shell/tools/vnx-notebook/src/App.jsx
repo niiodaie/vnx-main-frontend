@@ -16,9 +16,8 @@ const App = () => {
 
   const fetchNotes = async () => {
     try {
-      const response = await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes');
-      const data = await response.json();
-      setNotes(data);
+setNotes(await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/notes').then(res => res.json()));
+
     } catch (error) {
       console.error("Error fetching notes:", error);
     }
