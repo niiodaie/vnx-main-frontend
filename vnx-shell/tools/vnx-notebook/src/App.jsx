@@ -128,13 +128,11 @@ const App = () => {
       {note.language && (
   <span className="text-sm mt-1 block text-purple-600 italic">
     Language: {note.language}
-  </span>
-)}
-</li>
+         </span>
+      )}
+    </li>
+  ))}
 </ul>
-
-  );
-}
 
 export default App;
 
