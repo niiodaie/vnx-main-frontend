@@ -1,85 +1,132 @@
-import { useEffect, useState } from "react";
-import { supabase } from "./supabase";
 
-export default function App() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tag, setTag] = useState("");
+import React, { useState, useEffect } from 'react';
+import './App.css';
+
+function App() {
   const [notes, setNotes] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [tag, setTag] = useState('');
+  const [language, setLanguage] = useState('text');
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
-    fetchNotes();
+    const savedNotes = JSON.parse(localStorage.getItem('vnx-notes')) || [];
+    setNotes(savedNotes);
   }, []);
 
-  const fetchNotes = async () => {
-    setLoading(true);
-    const { data, error } = await supabase.from("notes").select("*").order("id", { ascending: false });
-    if (error) console.error("Fetch error:", error);
-    else setNotes(data);
-    setLoading(false);
+  useEffect(() => {
+    localStorage.setItem('vnx-notes', JSON.stringify(notes));
+  }, [notes]);
+
+  const saveNote = () => {
+    if (!title.trim() || !content.trim()) return;
+    const newNote = { title, content, tag, language };
+
+    if (editIndex !== null) {
+      const updatedNotes = [...notes];
+      updatedNotes[editIndex] = newNote;
+      setNotes(updatedNotes);
+      setEditIndex(null);
+    } else {
+      setNotes([newNote, ...notes]); // latest first
+    }
+
+    setTitle('');
+    setContent('');
+    setTag('');
+    setLanguage('text');
   };
 
-  const handleSave = async () => {
-    if (!title || !content) return;
-    const { error } = await supabase.from("notes").insert([{ title, content, tag }]);
-    if (error) console.error("Insert error:", error);
-    else {
-      setTitle("");
-      setContent("");
-      setTag("");
-      fetchNotes();
-    }
+  const deleteNote = (index) => {
+    const updatedNotes = [...notes];
+    updatedNotes.splice(index, 1);
+    setNotes(updatedNotes);
+  };
+
+  const editNote = (index) => {
+    const note = notes[index];
+    setTitle(note.title);
+    setContent(note.content);
+    setTag(note.tag);
+    setLanguage(note.language);
+    setEditIndex(index);
+  };
+
+  const copyContent = (text) => {
+    navigator.clipboard.writeText(text);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">🧠 Notebook VNX</h1>
-      <div className="max-w-md mx-auto bg-white rounded p-6 shadow">
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
+        <h1 className="text-2xl font-bold mb-4">🧠 Notebook VNX</h1>
         <input
-          className="w-full mb-3 px-3 py-2 border rounded"
+          type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className="w-full p-2 border rounded mb-2"
         />
         <textarea
-          className="w-full mb-3 px-3 py-2 border rounded"
           placeholder="Content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          className="w-full p-2 border rounded mb-2 h-24"
         />
         <input
-          className="w-full mb-3 px-3 py-2 border rounded"
+          type="text"
           placeholder="Tag (optional)"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
+          className="w-full p-2 border rounded mb-2"
         />
-        <button
-          className={
-            "w-full py-2 rounded text-white " +
-            (title && content ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-300 cursor-not-allowed")
-          }
-          onClick={handleSave}
-          disabled={!title || !content}
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="w-full p-2 border rounded mb-4"
         >
-          Save Note
+          <option value="text">Plain Text</option>
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="html">HTML</option>
+        </select>
+        <button
+          onClick={saveNote}
+          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        >
+          {editIndex !== null ? 'Update Note' : 'Save Note'}
         </button>
       </div>
 
-      <div className="mt-10 max-w-lg mx-auto">
-        <h3 className="text-xl font-bold mb-4">📝 Your Notes</h3>
-        {notes.map((note) => (
-          <div key={note.id} className="bg-white rounded shadow p-4 mb-3">
-            <h4 className="font-semibold">{note.title}</h4>
-            <p className="text-sm text-gray-700">{note.content}</p>
-            {note.tag && (
-              <span className="inline-block text-xs mt-2 px-2 py-1 bg-gray-200 rounded">
-                #{note.tag}
-              </span>
-            )}
-          </div>
-        ))}
+      <div className="max-w-md mx-auto mt-8">
+        <h2 className="text-xl font-semibold mb-4">🗒️ Your Notes</h2>
+        <ul className="space-y-4">
+          {notes.map((note, index) => (
+            <li key={index} className="bg-white p-4 rounded shadow relative">
+              <h3 className="text-lg font-semibold">{note.title}</h3>
+              <p className="text-gray-700 mt-1">{note.content}</p>
+              {note.tag && (
+                <span className="text-sm mt-2 inline-block text-blue-600">
+                  #{note.tag}
+                </span>
+              )}
+              {note.language && (
+                <span className="text-sm mt-1 block text-purple-600 italic">
+                  Language: {note.language}
+                </span>
+              )}
+              <div className="absolute top-2 right-2 flex gap-2">
+                <button onClick={() => copyContent(note.content)} className="text-blue-500 hover:text-blue-700">📋</button>
+                <button onClick={() => editNote(index)} className="text-yellow-500 hover:text-yellow-700">✏️</button>
+                <button onClick={() => deleteNote(index)} className="text-red-500 hover:text-red-700">❌</button>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
+
+export default App;
