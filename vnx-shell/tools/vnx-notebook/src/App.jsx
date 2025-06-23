@@ -113,8 +113,6 @@ const App = () => {
       <p className="text-gray-500">No notes yet.</p>
     ) : (
       <ul className="space-y-4">
-  {<ul>
-  <ul>
   {notes.map((note, index) => (
     <li key={index} className="bg-white p-4 rounded shadow">
       <h3 className="text-lg font-semibold">{note.title}</h3>
