@@ -101,7 +101,7 @@ const App = () => {
   </select>
 </div>
 
-<h1 className="text-2xl font-bold mb-4 text-center">🧠 Notebook VNX</h1>
+<h1 className="text-2xl font-bold mb-4 text-center">🧠 {t("title")}</h1>
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
