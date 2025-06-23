@@ -1,1 +1,13 @@
-
+{
+  "title": "🧠 Cuaderno VNX",
+  "inputTitle": "Título",
+  "inputContent": "Contenido",
+  "inputTag": "Etiqueta (opcional)",
+  "selectLanguage": "Idioma",
+  "saveNote": "Guardar nota",
+  "updateNote": "Actualizar nota",
+  "filterByTag": "🔖 Filtrar por etiqueta",
+  "yourNotes": "📚 Tus notas",
+  "all": "Todas",
+  "language": "Idioma"
+}
