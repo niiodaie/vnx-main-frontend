@@ -46,18 +46,7 @@ setNotes(await fetch('https://vnx-main-backend.onrender.com/tools/vnx-note-api/n
     alert("Failed to save note.");
   }
 };
-
-  const handleDelete = async (id) => {
-    try {
-      await fetch(`https://vnx-main-backend.onrender.com/notes/${id}`, {
-        method: 'DELETE',
-      });
-      fetchNotes();
-    } catch (error) {
-      console.error("Error deleting note:", error);
-    }
-  };
-
+  
   const handleEdit = (note) => {
     setTitle(note.title);
     setContent(note.content);
