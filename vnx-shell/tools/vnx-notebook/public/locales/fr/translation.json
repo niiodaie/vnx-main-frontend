@@ -1,13 +1,13 @@
 {
-  "title": "Notebook VNX",
-  "content": "Content",
-  "tagOptional": "Tag (optional)",
-  "plainText": "Plain Text",
-  "saveNote": "Save Note",
-  "filterByTag": "Filter by Tag",
-  "all": "All",
-  "yourNotes": "Your Notes",
-  "noteSaved": "Note saved!",
-  "noteDeleted": "Note deleted!",
-  "language": "Language"
+  "title": "Carnet VNX",
+  "content": "Contenu",
+  "tagOptional": "Étiquette (facultatif)",
+  "plainText": "Texte brut",
+  "saveNote": "Enregistrer la note",
+  "filterByTag": "Filtrer par étiquette",
+  "all": "Tous",
+  "yourNotes": "Vos Notes",
+  "noteSaved": "Note enregistrée !",
+  "noteDeleted": "Note supprimée !",
+  "language": "Langue"
 }
