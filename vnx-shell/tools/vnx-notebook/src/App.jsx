@@ -103,7 +103,7 @@ const App = () => {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-6">🧠 Notebook VNX</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">🧠 {t("title")}</h1>
 
       <input
         className="w-full p-2 border rounded mb-2"
