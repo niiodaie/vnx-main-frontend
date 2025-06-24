@@ -1,13 +1,13 @@
 {
   "title": "Daftari la VNX",
-  "content": "Yaliyomo",
+  "content": "Maudhui",
   "tagOptional": "Lebo (hiari)",
-  "plainText": "Maandishi Rahisi",
-  "saveNote": "Hifadhi Kumbukumbu",
+  "plainText": "Maandishi ya kawaida",
+  "saveNote": "Hifadhi Dokezo",
   "filterByTag": "Chuja kwa Lebo",
   "all": "Zote",
   "yourNotes": "Maandishi Yako",
-  "noteSaved": "Kumbukumbu imehifadhiwa!",
-  "noteDeleted": "Kumbukumbu imefutwa!",
+  "noteSaved": "Dokezo limehifadhiwa!",
+  "noteDeleted": "Dokezo limefutwa!",
   "language": "Lugha"
 }
