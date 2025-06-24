@@ -86,7 +86,7 @@ const App = () => {
 
   const filteredNotes = selectedTag
     ? notes.filter((note) => note.tag === selectedTag)
-    : notes;
+    - : notes;
 <div className="flex justify-end mb-4">
   <select
     onChange={(e) => i18n.changeLanguage(e.target.value)}
