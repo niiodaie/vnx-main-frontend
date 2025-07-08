@@ -2,110 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VNX Tools Dashboard – Visnec Nexus</title>
 
-  <!-- ✅ Canonical: point to correct subdomain -->
   <link rel="canonical" href="https://tools.visnec.ai/" />
-
-  <!-- ✅ SEO Meta -->
   <meta name="description" content="Explore all Visnec Nexus tools in one unified dashboard. Quickly launch AI-powered utilities for productivity, diagnostics, creativity, and more." />
-
-  <!-- ✅ Open Graph Meta -->
   <meta property="og:title" content="VNX Tools Dashboard – Visnec Nexus" />
   <meta property="og:description" content="A central dashboard of tools to enhance your digital workflow under the Visnec Nexus platform." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://tools.visnec.ai/" />
   <meta property="og:image" content="https://www.visnec.ai/assets/tools-preview.png" />
-
-  <!-- ✅ Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="VNX Tools Dashboard – Visnec Nexus" />
   <meta name="twitter:description" content="Launch innovative tools from one powerful dashboard. Built by Visnec Nexus." />
   <meta name="twitter:image" content="https://www.visnec.ai/assets/tools-preview.png" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-  <!-- ✅ Favicon -->
-  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="VNX" />
-  <link rel="manifest" href="/favicon/site.webmanifest" />
-
-  <!-- ✅ TailwindCSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gradient-to-tr from-gray-50 to-blue-50 text-gray-800 font-sans">
+
   <div class="min-h-screen px-6 py-12">
-    <h1 class="text-4xl font-bold text-center mb-10">VNX Tools Dashboard</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <h1 class="text-4xl font-bold text-center mb-12 text-blue-800">VNX Tools Dashboard</h1>
 
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">📝 Vnx-Note</h2>
-        <p class="text-sm mb-4">Write, organize, and store your notes intelligently.</p>
-        <a href="https://vnxnote.visnec.ai" class="text-blue-600 hover:underline">Open Tool →</a>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+      <!-- Tool Card Template -->
+      <div class="bg-white border border-gray-100 shadow-md hover:shadow-xl transition-transform transform hover:scale-105 rounded-2xl p-6">
+        <div class="text-3xl bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center mb-3">📝</div>
+        <h2 class="text-lg font-semibold mb-1">Vnx-Note</h2>
+        <p class="text-sm text-gray-600 mb-4">Write, organize, and store your notes intelligently.</p>
+        <a href="https://vnxnote.visnec.ai" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Open Tool</a>
       </div>
 
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">✅ Task Management and Planning</h2>
-        <p class="text-sm mb-4">Manage and track daily tasks with ease.</p>
-        <a href="https://nexustracker.visnec.ai/" class="text-blue-600 hover:underline">Open Tool →</a>
+      <div class="bg-white border border-gray-100 shadow-md hover:shadow-xl transition-transform transform hover:scale-105 rounded-2xl p-6">
+        <div class="text-3xl bg-green-100 rounded-full w-10 h-10 flex items-center justify-center mb-3">✅</div>
+        <h2 class="text-lg font-semibold mb-1">Task Management</h2>
+        <p class="text-sm text-gray-600 mb-4">Manage and track daily tasks with ease.</p>
+        <a href="https://nexustracker.visnec.ai/" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Open Tool</a>
       </div>
 
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">🌐 Network Diagnostic</h2>
-        <p class="text-sm mb-4">Run ping, traceroute, and diagnostics on the fly.</p>
-        <a href="https://netscan.visnec.ai/" class="text-blue-600 hover:underline">Open Tool →</a>
+      <div class="bg-white border border-gray-100 shadow-md hover:shadow-xl transition-transform transform hover:scale-105 rounded-2xl p-6">
+        <div class="text-3xl bg-purple-100 rounded-full w-10 h-10 flex items-center justify-center mb-3">🌐</div>
+        <h2 class="text-lg font-semibold mb-1">Network Diagnostic</h2>
+        <p class="text-sm text-gray-600 mb-4">Run ping, traceroute, and diagnostics on the fly.</p>
+        <a href="https://netscan.visnec.ai/" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Open Tool</a>
       </div>
 
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">📊 Status Report</h2>
-        <p class="text-sm mb-4">Generate and submit weekly work reports.</p>
-        <a href="https://statusreport.visnec.ai" class="text-blue-600 hover:underline">Open Tool →</a>
+      <div class="bg-white border border-gray-100 shadow-md hover:shadow-xl transition-transform transform hover:scale-105 rounded-2xl p-6">
+        <div class="text-3xl bg-yellow-100 rounded-full w-10 h-10 flex items-center justify-center mb-3">📊</div>
+        <h2 class="text-lg font-semibold mb-1">Status Report</h2>
+        <p class="text-sm text-gray-600 mb-4">Generate and submit weekly work reports.</p>
+        <a href="https://statusreport.visnec.ai" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Open Tool</a>
       </div>
 
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">🛡️ Scam Shield</h2>
-        <p class="text-sm mb-4">Protect yourself from scams and spyware.</p>
-        <a href="https://scamshield-pro.com" class="text-blue-600 hover:underline">Open Tool →</a>
+      <div class="bg-white border border-gray-100 shadow-md hover:shadow-xl transition-transform transform hover:scale-105 rounded-2xl p-6">
+        <div class="text-3xl bg-red-100 rounded-full w-10 h-10 flex items-center justify-center mb-3">🛡️</div>
+        <h2 class="text-lg font-semibold mb-1">Scam Shield</h2>
+        <p class="text-sm text-gray-600 mb-4">Protect yourself from scams and spyware.</p>
+        <a href="https://scamshield-pro.com" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Open Tool</a>
       </div>
 
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">🛫 Flight Tracker</h2>
-        <p class="text-sm mb-4">Track flights in real-time with deals.</p>
-        <a href="https://trackmyflight.live" class="text-blue-600 hover:underline">Open Tool →</a>
+      <div class="bg-white border border-gray-100 shadow-md hover:shadow-xl transition-transform transform hover:scale-105 rounded-2xl p-6">
+        <div class="text-3xl bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center mb-3">🛫</div>
+        <h2 class="text-lg font-semibold mb-1">Flight Tracker</h2>
+        <p class="text-sm text-gray-600 mb-4">Track flights in real-time with deals.</p>
+        <a href="https://trackmyflight.live" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Open Tool</a>
       </div>
 
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">🧘 Breath Check</h2>
-        <p class="text-sm mb-4">Relaxation and breathing coach on the go.</p>
-        <a href="https://breath-check.visnec.ai" class="text-blue-600 hover:underline">Open Tool →</a>
+      <div class="bg-white border border-gray-100 shadow-md hover:shadow-xl transition-transform transform hover:scale-105 rounded-2xl p-6">
+        <div class="text-3xl bg-pink-100 rounded-full w-10 h-10 flex items-center justify-center mb-3">🧘</div>
+        <h2 class="text-lg font-semibold mb-1">Breath Check</h2>
+        <p class="text-sm text-gray-600 mb-4">Relaxation and breathing coach on the go.</p>
+        <a href="https://breath-check.visnec.ai" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Open Tool</a>
       </div>
 
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">📦 SnapTools</h2>
-        <p class="text-sm mb-4">Compress, convert, and create — your all-in-one utility for files and media.</p>
-        <a href="https://snap.visnec.ai" class="text-blue-600 hover:underline">Open Tool →</a>
-      </div>
-
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">📅 Coming Soon</h2>
-        <p class="text-sm mb-4">Plan events with activities and prompts.</p>
-        <a href="https://event-master.visnec.ai" class="text-blue-600 hover:underline">Open Tool →</a>
-      </div>
-
-      <div class="bg-white border rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-200">
-        <h2 class="text-xl font-semibold mb-2">🖼️ Coming Soon</h2>
-        <p class="text-sm mb-4">Create image mosaics using your photo collections.</p>
-        <a href="https://photo-mosaic.visnec.ai" class="text-blue-600 hover:underline">Open Tool →</a>
+      <div class="bg-white border border-gray-100 shadow-md hover:shadow-xl transition-transform transform hover:scale-105 rounded-2xl p-6">
+        <div class="text-3xl bg-yellow-100 rounded-full w-10 h-10 flex items-center justify-center mb-3">📦</div>
+        <h2 class="text-lg font-semibold mb-1">SnapTools</h2>
+        <p class="text-sm text-gray-600 mb-4">Compress, convert, and create — your all-in-one utility.</p>
+        <a href="https://snap.visnec.ai" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Open Tool</a>
       </div>
 
     </div>
 
-    <footer class="mt-16 text-center text-sm text-gray-500">
-      © 2025 Visnec Nexus. All rights reserved.
+    <footer class="text-center mt-16 text-sm text-gray-500">
+      &copy; 2025 Visnec Nexus. All rights reserved.
     </footer>
   </div>
+
 </body>
 </html>
