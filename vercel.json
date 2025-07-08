@@ -4,6 +4,11 @@
       "source": "/notebook",
       "destination": "https://vnx-note.visnec.ai",
       "permanent": true
+    },
+    {
+      "source": "/tools.html",
+      "destination": "https://tools.visnec.ai",
+      "permanent": true
     }
   ],
   "rewrites": [
